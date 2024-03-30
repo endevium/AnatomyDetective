@@ -9,7 +9,7 @@ import java.util.Set;
 import java.awt.event.*;
 import java.security.cert.Extension;
 
-public class game {
+public class TIMER {
 
     private static final JProgressBar PBar = new JProgressBar();
     private static JFrame main_frame;
