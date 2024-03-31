@@ -41,7 +41,7 @@ public class game {
         container.add(main_panel);
         
         gameLogoLabel = new JLabel();
-        gameLogoLabel.setIcon(new ImageIcon(".//assets/anatomy_detective_logo.png"));
+        gameLogoLabel.setIcon(new ImageIcon("com/BIT5/AnatomyDetective/assets/anatomy_detective_logo.png"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -49,7 +49,7 @@ public class game {
         main_panel.add(gameLogoLabel, gbc);
         
         playBtn = new JButton();
-        playBtn.setIcon(new ImageIcon(".//assets/play_button.png"));
+        playBtn.setIcon(new ImageIcon("com/BIT5/AnatomyDetective/assets/play_button.png"));
         playBtn.setBackground(null);
         playBtn.setBorder(null);
         gbc.gridx = 0;
@@ -82,7 +82,7 @@ public class game {
         container.add(back_panel);
         
         backBtn = new JButton();
-        backBtn.setIcon(new ImageIcon(".//assets/back_button.png"));
+        backBtn.setIcon(new ImageIcon("com/BIT5/AnatomyDetective/assets/back_button.png"));
         backBtn.setBackground(null);
         backBtn.setBorder(null);
         backBtn.addActionListener(new ActionListener() {
@@ -151,7 +151,7 @@ public class game {
         });
 
         submitBtn = new JButton();
-        submitBtn.setIcon(new ImageIcon(".//assets/submit_btn.png"));
+        submitBtn.setIcon(new ImageIcon("com/BIT5/AnatomyDetective/assets/submit_btn.png"));
         submitBtn.setBackground(null);
         submitBtn.setBorder(null);
         submitBtn.addActionListener(new ActionListener() {
@@ -166,7 +166,7 @@ public class game {
         game_panel.add(submitBtn, gbc2);
 
         skipBtn = new JButton();
-        skipBtn.setIcon(new ImageIcon(".//assets/skip_button.png"));
+        skipBtn.setIcon(new ImageIcon("com/BIT5/AnatomyDetective/assets/skip_button.png"));
         skipBtn.setBackground(null);
         skipBtn.setBorder(null);
         skipBtn.addActionListener(new ActionListener() {
@@ -339,22 +339,21 @@ public class game {
     }
     
     static void timerOver() {
-    	if (roundNum < 10) {
+        Timer timer = (Timer) timer_panel.getClientProperty("timer");
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+        
+    
+        if (roundNum < 10) {
             fill();
             roundNum += 1;
             scoreLabel.setText(Integer.toString(score));
-            totalLabel.setText("Score: " + Integer.toString(score));
             roundLabel.setText(Integer.toString(roundNum) + "/10");
             answerInputField.setText("");
             generatePart();
         } else if (roundNum == 10) {
-            Timer timer = (Timer) timer_panel.getClientProperty("timer");
-            if (timer != null && timer.isRunning()) {
-                timer.stop();
-            }
             PBar.setValue(0);
-            scoreLabel.setText(Integer.toString(score));
-            totalLabel.setText("Score: " + Integer.toString(score));
             roundLabel.setText(Integer.toString(roundNum) + "/10");
             answerInputField.setText("");
             back_panel.setVisible(false);
@@ -367,7 +366,22 @@ public class game {
     static void submitAnswer() {
         String userAnswer = answerInputField.getText();
         if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum == 10) {
-            score += 100;
+            score += 0;
+            int count = PBar.getValue();
+    
+            if (count >= 1 && count <= 20) {
+                score += 100;
+            } else if (count >= 21 && count <= 40) {
+                score += 70;
+            } else if (count >= 41 && count <= 60) {
+                score += 50;
+            } else if (count >= 61 && count <= 80) {
+                score += 20;
+            } else if (count > 81) {
+                score += 10;
+            } else if (count >= 100) {
+                score += 0;
+            }
             totalLabel.setText("Score: " + Integer.toString(score));
             back_panel.setVisible(false);
             game_panel.setVisible(false);
@@ -377,8 +391,23 @@ public class game {
             generatePart();
         } else if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum < 11) {
             fill();
-            score += 100;
+            score += 0;
             roundNum += 1;
+            int count = PBar.getValue();
+    
+            if (count >= 1 && count <= 20) {
+                score += 100;
+            } else if (count >= 21 && count <= 40) {
+                score += 70;
+            } else if (count >= 41 && count <= 60) {
+                score += 50;
+            } else if (count >= 61 && count <= 80) {
+                score += 20;
+            } else if (count > 81) {
+                score += 10;
+            } else if (count >= 100) {
+                score += 0;
+            }
             scoreLabel.setText(Integer.toString(score));
             totalLabel.setText("Score: " + Integer.toString(score));
             roundLabel.setText(Integer.toString(roundNum) + "/10");
@@ -388,4 +417,6 @@ public class game {
             answerInputField.setText("");
         }
     }
+    
+
 }
