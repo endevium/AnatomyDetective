@@ -137,13 +137,13 @@ public class game {
         
         timer_panel = new JPanel();
         timer_panel.setBackground(Color.LIGHT_GRAY);
-        timer_panel.setBounds(0, -6, 1200, 100);
+        timer_panel.setBounds(0, -6, 1020, 100);
         timer_panel.setVisible(false);
         container.add(timer_panel);
         
         PBar = new JProgressBar();
         PBar.setValue(0);
-        PBar.setPreferredSize(new Dimension(1200, 25));
+        PBar.setPreferredSize(new Dimension(1020, 25));
         PBar.setForeground(Color.GRAY);
         PBar.setBackground(Color.white);
         PBar.setBorder(null);
@@ -365,20 +365,34 @@ public class game {
             timer.stop();
         }
 
-        timer = new Timer(590, new ActionListener() {
+        timer = new Timer(1000, new ActionListener() {
             int count = 0;
+            final int max_count = 60;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                PBar.setValue(count);
-                count++;
-                if (count > 100) {
+            	PBar.setValue((int)((count / max_count) * 100));
+            	count++;
+                if (count > max_count) {
                     ((Timer) e.getSource()).stop();
+                    timerOver();
+                    count = 0;
                 }
             }
         });
         timer_panel.putClientProperty("timer", timer);
         timer.start();
+    }
+    
+    static void timerOver() {
+    	fill();
+        
+		roundNum += 1;
+		scoreLabel.setText(Integer.toString(score));
+		totalLabel.setText("Score: " + Integer.toString(score));
+		roundLabel.setText(Integer.toString(roundNum) + "/10");
+		answerInputField.setText("");
+		generatePart();
     }
 
 }
