@@ -10,14 +10,17 @@ import java.awt.event.*;
 
 public class game {
 
+    private static JProgressBar PBar;
     private static JFrame main_frame;
     private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel;
     private static JTextField answerInputField;
     private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn;
     private static String correctAnswer; 
-    private static JPanel main_panel, game_panel, game_over_panel, back_panel;
+    private static JPanel main_panel, game_panel, game_over_panel, back_panel, timer_panel;
     private static int score;
     private static int roundNum;
+
+    
     
     /* 
      IMPORTANT NOTES:
@@ -77,7 +80,8 @@ public class game {
         gbc.gridy = 2;
         playBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {	
+            public void actionPerformed(ActionEvent e) {
+            	fill();
             	score = 0;
             	roundNum = 1;
             	scoreLabel.setText(Integer.toString(score));
@@ -89,13 +93,15 @@ public class game {
             	main_panel.setVisible(false);
             	game_panel.setVisible(true);
             	back_panel.setVisible(true);
+            	timer_panel.setVisible(true);
+
             }
         });
         main_panel.add(playBtn, gbc);
         
         back_panel = new JPanel();
         back_panel.setBackground(Color.LIGHT_GRAY);
-        back_panel.setBounds(14, 10, 30, 30);
+        back_panel.setBounds(14, 25, 30, 30);
         back_panel.setVisible(false);
         container.add(back_panel);
         
@@ -107,6 +113,7 @@ public class game {
             public void actionPerformed(ActionEvent e) {
             	game_panel.setVisible(false);
             	back_panel.setVisible(false);
+            	timer_panel.setVisible(false);
             	main_panel.setVisible(true);
             	usedParts.clear();
             }
@@ -127,7 +134,21 @@ public class game {
         gbc2.gridy = 0;
         gbc2.insets = new Insets(10, 0, 10, 0);
         game_panel.add(scoreLabel, gbc2);
-
+        
+        timer_panel = new JPanel();
+        timer_panel.setBackground(Color.LIGHT_GRAY);
+        timer_panel.setBounds(0, -6, 1200, 100);
+        timer_panel.setVisible(false);
+        container.add(timer_panel);
+        
+        PBar = new JProgressBar();
+        PBar.setValue(0);
+        PBar.setPreferredSize(new Dimension(1200, 25));
+        PBar.setForeground(Color.GRAY);
+        PBar.setBackground(Color.white);
+        PBar.setBorder(null);
+        timer_panel.add(PBar);
+        
         roundLabel = new JLabel(Integer.toString(roundNum) + "/10");
         roundLabel.setFont(new Font("Arial", Font.PLAIN, 21));
         roundLabel.setForeground(Color.BLACK);
@@ -140,6 +161,7 @@ public class game {
         answerInputField = new JTextField("");
         answerInputField.setFont(new Font("Helvetica Neue", Font.BOLD, 19));
         answerInputField.setPreferredSize(new Dimension(400, 40));
+        answerInputField.setBackground(null);
         answerInputField.setHorizontalAlignment(JTextField.CENTER);
         gbc2.gridx = 0;
         gbc2.gridy = 4;
@@ -158,11 +180,13 @@ public class game {
                 	totalLabel.setText("Score: " + Integer.toString(score));
                 	back_panel.setVisible(false);
                 	game_panel.setVisible(false);
+                	timer_panel.setVisible(false);
                 	game_over_panel.setVisible(true);
                     answerInputField.setText("");
                     generatePart();
                 }
                 else if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum < 11) {
+                	fill();
                     score += 100;
                     roundNum += 1;
                     scoreLabel.setText(Integer.toString(score));
@@ -180,6 +204,8 @@ public class game {
         gbc2.gridy = 5;
         game_panel.add(submitBtn, gbc2);
 
+       
+
         skipBtn = new JButton();
         skipBtn.setIcon(new ImageIcon(".//assets/skip_button.png"));
         skipBtn.setBackground(null);
@@ -187,6 +213,8 @@ public class game {
         skipBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	if (roundNum < 10) {
+            		fill();
+                    
             		roundNum += 1;
             		scoreLabel.setText(Integer.toString(score));
             		totalLabel.setText("Score: " + Integer.toString(score));
@@ -195,12 +223,17 @@ public class game {
             		generatePart();
             	} 
             	else if (roundNum == 10) {
+            		Timer timer = (Timer) timer_panel.getClientProperty("timer");
+
+            	    timer.stop();
+            	    PBar.setValue(0);
             		scoreLabel.setText(Integer.toString(score));
             		totalLabel.setText("Score: " + Integer.toString(score));
             		roundLabel.setText(Integer.toString(roundNum) + "/10");
             		answerInputField.setText("");
             		back_panel.setVisible(false);
                 	game_panel.setVisible(false);
+                	timer_panel.setVisible(false);
                 	game_over_panel.setVisible(true);
                 }
             }
@@ -231,7 +264,7 @@ public class game {
         tryAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
-            	back_panel.setVisible(true);
+            	fill();
             	game_over_panel.setVisible(false);
             	score = 0;
             	roundNum = 1;
@@ -242,6 +275,7 @@ public class game {
             	generatePart();
             	back_panel.setVisible(true);
             	game_panel.setVisible(true);
+            	timer_panel.setVisible(true);
             }
         });
         gbc3.gridx = 0;
@@ -254,9 +288,10 @@ public class game {
         menuBtn.setBorder(null);
         menuBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { 
+            public void actionPerformed(ActionEvent e) {
             	back_panel.setVisible(false);
             	game_over_panel.setVisible(false);
+            	timer_panel.setVisible(false);
             	score = 0;
             	roundNum = 1;
             	scoreLabel.setText(Integer.toString(score));
@@ -272,11 +307,15 @@ public class game {
         game_over_panel.add(menuBtn, gbc3);
         
         main_frame.setVisible(true);
+        
     }
+
+
 
     static Set<String> usedParts = new HashSet<>();
     // Every item is unique in a HashSet
-
+    
+    
     static void generatePart() {
         AnatomyDetectiveDictionary con = new AnatomyDetectiveDictionary();
         Map<String, String> dictionary = con.accessDictionary();
@@ -319,4 +358,27 @@ public class game {
         Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
+    
+    static void fill() {
+        Timer timer = (Timer) timer_panel.getClientProperty("timer");
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+
+        timer = new Timer(590, new ActionListener() {
+            int count = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PBar.setValue(count);
+                count++;
+                if (count > 100) {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        timer_panel.putClientProperty("timer", timer);
+        timer.start();
+    }
+
 }
