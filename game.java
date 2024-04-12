@@ -13,13 +13,14 @@ public class game {
 
 	private static JProgressBar PBar;
     private static JFrame main_frame;
-    private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel;
+    private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel;
     private static JTextField answerInputField;
-    private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, easyBtn, averageBtn, difficultBtn, topicBtn;
+    private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, easyBtn, averageBtn, difficultBtn, continueBtn;
     private static String correctAnswer; 
-    private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel;
+    private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel, review_panel;
     private static int score;
     private static int roundNum;
+    private static boolean isReview;
     
     public static void main(String[] args) {
         main_frame = new JFrame("Anatomy Detective v0.0.1");
@@ -34,6 +35,7 @@ public class game {
         
         score = 0;
         roundNum = 1;
+        isReview = false;
         
         main_panel = new JPanel(new GridBagLayout());
         main_panel.setBackground(Color.LIGHT_GRAY);
@@ -98,7 +100,7 @@ public class game {
         GridBagConstraints gbc4 = new GridBagConstraints();
         gbc4.gridx = 0;
         gbc4.gridy = 0;
-        gbc4.insets = new Insets(10, 0, 65, 0);
+        gbc4.insets = new Insets(10, 0, 25, 0);
         mode_panel.add(chooseModeLabel, gbc4);
         
         casualBtn = new JButton();
@@ -123,7 +125,7 @@ public class game {
         reviewBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
-                topic_panel.setVisible(true);
+                review_panel.setVisible(true);
                 mode_panel.setVisible(false);
             }
         });
@@ -143,7 +145,7 @@ public class game {
         GridBagConstraints gbc5 = new GridBagConstraints();
         gbc5.gridx = 0;
         gbc5.gridy = 0;
-        gbc5.insets = new Insets(10, 0, 65, 0);
+        gbc5.insets = new Insets(10, 0, 25, 0);
         difficulty_panel.add(chooseDifficultyLabel, gbc5);
         
         easyBtn = new JButton();
@@ -156,6 +158,10 @@ public class game {
             	fill();
             	score = 0;
             	roundNum = 1;
+            	review_panel.remove(reviewImageLabel);
+                review_panel.remove(partNameLabel);
+                review_panel.revalidate();
+                review_panel.repaint();
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
         		roundLabel.setText(Integer.toString(roundNum) + "/10");
@@ -181,6 +187,10 @@ public class game {
             	fill();
             	score = 0;
             	roundNum = 1;
+            	review_panel.remove(reviewImageLabel);
+                review_panel.remove(partNameLabel);
+                review_panel.revalidate();
+                review_panel.repaint();
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
         		roundLabel.setText(Integer.toString(roundNum) + "/10");
@@ -207,6 +217,10 @@ public class game {
             	fill();
             	score = 0;
             	roundNum = 1;
+            	review_panel.remove(reviewImageLabel);
+                review_panel.remove(partNameLabel);
+                review_panel.revalidate();
+                review_panel.repaint();
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
         		roundLabel.setText(Integer.toString(roundNum) + "/10");
@@ -249,6 +263,17 @@ public class game {
         backBtn.setBorder(null);
         backBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	score = 0;
+            	roundNum = 1;
+            	scoreLabel.setText(Integer.toString(score));
+            	totalLabel.setText("Score: " + Integer.toString(score));
+        		roundLabel.setText(Integer.toString(roundNum) + "/10");
+        		
+            	review_panel.remove(reviewImageLabel);
+                review_panel.remove(partNameLabel);
+            	generatePart();
+            	review_panel.revalidate();
+                review_panel.repaint();
             	if (mode_panel.isVisible()) {
             		mode_panel.setVisible(false);
             		back_panel.setVisible(false);
@@ -267,6 +292,11 @@ public class game {
             		topic_panel.setVisible(false);
             		mode_panel.setVisible(true);
             	}
+            	else if (review_panel.isVisible()) {
+            		review_panel.setVisible(false);
+            		mode_panel.setVisible(true); // update when topics are added
+            		usedParts.clear();
+            	}
             	else if (game_panel.isVisible() && timer_panel.isVisible()) {
             		game_panel.setVisible(false);
             		timer_panel.setVisible(false);
@@ -276,6 +306,39 @@ public class game {
             }
         });
         back_panel.add(backBtn);
+        
+        review_panel = new JPanel(new GridBagLayout());
+        review_panel.setBackground(Color.LIGHT_GRAY);
+        review_panel.setBounds(250, 60, 500, 700);
+        review_panel.setVisible(false);
+        container.add(review_panel);
+        
+        rememberThisLabel = new JLabel("Remember this!");
+        rememberThisLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        rememberThisLabel.setForeground(Color.BLACK);
+        GridBagConstraints gbc7 = new GridBagConstraints();
+        gbc7.gridx = 0;
+        gbc7.gridy = 0;
+        gbc7.insets = new Insets(10, 0, 10, 0);
+        review_panel.add(rememberThisLabel, gbc7);
+        
+        continueBtn = new JButton();
+        continueBtn.setIcon(new ImageIcon(".//assets/play_button.png"));
+        continueBtn.setBackground(null);
+        continueBtn.setBorder(null);
+        gbc7.gridx = 0;
+        gbc7.gridy = 3;
+        continueBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	isReview = true;
+            	fill();
+            	review_panel.setVisible(false);
+            	game_panel.setVisible(true);
+            	timer_panel.setVisible(true);
+            }
+        });
+        review_panel.add(continueBtn, gbc7);
         
         game_panel = new JPanel(new GridBagLayout());
         game_panel.setBackground(Color.LIGHT_GRAY);
@@ -338,8 +401,16 @@ public class game {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Call submitAnswer method when submit button is clicked
+            	if (isReview == true) {
+            		review_panel.setVisible(true);
+            		game_panel.setVisible(false);
+            		timer_panel.setVisible(false);
+            	}
+            	review_panel.remove(reviewImageLabel);
+                review_panel.remove(partNameLabel);    	
                 submitAnswer();
+                review_panel.revalidate();
+                review_panel.repaint();
             }
         });
         gbc2.gridx = 0;
@@ -353,14 +424,26 @@ public class game {
         skipBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (roundNum < 10) {
+                	if (isReview == true) {
+                		review_panel.setVisible(true);
+                		game_panel.setVisible(false);
+                		timer_panel.setVisible(false);
+                	}
                     fill();
                     roundNum += 1;
                     scoreLabel.setText(Integer.toString(score));
                     totalLabel.setText("Score: " + Integer.toString(score));
                     roundLabel.setText(Integer.toString(roundNum) + "/10");
                     answerInputField.setText("");
-                    generatePart();
+                    review_panel.remove(reviewImageLabel);
+                    review_panel.remove(partNameLabel);
+                	generatePart();
+                	review_panel.revalidate();
+                    review_panel.repaint();
                 } else if (roundNum == 10) {
+                	if (isReview == true) {
+                		isReview = true;
+                	}
                     Timer timer = (Timer) timer_panel.getClientProperty("timer");
                     if (timer != null && timer.isRunning()) {
                         timer.stop();
@@ -370,6 +453,10 @@ public class game {
                     totalLabel.setText("Score: " + Integer.toString(score));
                     roundLabel.setText(Integer.toString(roundNum) + "/10");
                     answerInputField.setText("");
+                    review_panel.remove(reviewImageLabel);
+                    review_panel.remove(partNameLabel);
+                	review_panel.revalidate();
+                    review_panel.repaint();
                     back_panel.setVisible(false);
                     game_panel.setVisible(false);
                     timer_panel.setVisible(false);
@@ -403,7 +490,15 @@ public class game {
         tryAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
-                fill();
+            	if (isReview == true) {
+            		review_panel.setVisible(true);
+            		game_panel.setVisible(false);
+            		timer_panel.setVisible(false);
+            	}
+            	else {
+            		fill();
+            		timer_panel.setVisible(true);
+            	}
                 game_over_panel.setVisible(false);
                 score = 0;
                 roundNum = 1;
@@ -411,10 +506,13 @@ public class game {
                 totalLabel.setText("Score: " + Integer.toString(score));
                 roundLabel.setText(Integer.toString(roundNum) + "/10");
                 usedParts.clear();
+                review_panel.remove(reviewImageLabel);
+                review_panel.remove(partNameLabel);
                 generatePart();
+            	review_panel.revalidate();
+                review_panel.repaint();
                 back_panel.setVisible(true);
                 game_panel.setVisible(true);
-                timer_panel.setVisible(true);
             }
         });
         gbc3.gridx = 0;
@@ -437,7 +535,11 @@ public class game {
                 totalLabel.setText("Score: " + Integer.toString(score));
                 roundLabel.setText(Integer.toString(roundNum) + "/10");
                 usedParts.clear();
+                review_panel.remove(reviewImageLabel);
+                review_panel.remove(partNameLabel);
                 generatePart();
+            	review_panel.revalidate();
+                review_panel.repaint();
                 main_panel.setVisible(true);
             }
         });
@@ -482,6 +584,20 @@ public class game {
         gbcImage.gridx = 0;
         gbcImage.gridy = 3;
         game_panel.add(imageLabel, gbcImage);
+        
+        reviewImageLabel = new JLabel(partImage);
+        GridBagConstraints gbcImage2 = new GridBagConstraints();
+        gbcImage2.gridx = 0;
+        gbcImage2.gridy = 1;
+        review_panel.add(reviewImageLabel, gbcImage2);
+        
+        partNameLabel = new JLabel(correctAnswer);
+        partNameLabel.setFont(new Font("Arial", Font.PLAIN, 27));
+        partNameLabel.setForeground(Color.BLACK);
+        gbcImage2.gridx = 0;
+        gbcImage2.gridy = 2;
+        review_panel.add(partNameLabel, gbcImage2);
+        
         game_panel.revalidate();
         game_panel.repaint();
     }
