@@ -11,7 +11,7 @@ import java.awt.event.*;
 
 public class game {
 
-    private static JProgressBar PBar;
+	private static JProgressBar PBar;
     private static JFrame main_frame;
     private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel;
     private static JTextField answerInputField;
@@ -20,7 +20,7 @@ public class game {
     private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel;
     private static int score;
     private static int roundNum;
-
+    
     public static void main(String[] args) {
         main_frame = new JFrame("Anatomy Detective v0.0.1");
         main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,49 +41,50 @@ public class game {
         container.add(main_panel);
         
         gameLogoLabel = new JLabel();
-        gameLogoLabel.setIcon(new ImageIcon("assets/anatomy_detective_logo.png"));
+        gameLogoLabel.setIcon(new ImageIcon(".//assets/anatomy_detective_logo.png"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(80, 0, 20, 0);
+        gbc.insets = new Insets(30, 0, 20, 0);
         main_panel.add(gameLogoLabel, gbc);
         
         playBtn = new JButton();
-        playBtn.setIcon(new ImageIcon("assets/play_button.png"));
+        playBtn.setIcon(new ImageIcon(".//assets/play_button.png"));
         playBtn.setBackground(null);
         playBtn.setBorder(null);
         gbc.gridx = 0;
         gbc.gridy = 2;
         playBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {      	
+            public void actionPerformed(ActionEvent e) {
             	main_panel.setVisible(false);
             	mode_panel.setVisible(true);
             	back_panel.setVisible(true);
-            	//timer_panel.setVisible(true);
-
             }
         });
         main_panel.add(playBtn, gbc);
         
         htpBtn = new JButton();
-        htpBtn.setIcon(new ImageIcon("assets/htp_button.png"));
+        htpBtn.setIcon(new ImageIcon(".//assets/htp_button.png"));
         htpBtn.setBackground(null);
         htpBtn.setBorder(null);
         gbc.gridx = 0;
         gbc.gridy = 3;
+        htpBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	main_panel.setVisible(false);
+            	htp_panel.setVisible(true);
+            	back_panel.setVisible(true);
+            }
+        });
         main_panel.add(htpBtn, gbc);
-        
         
         htp_panel = new JPanel(new GridBagLayout());
         htp_panel.setBackground(Color.LIGHT_GRAY);
-        htp_panel.setBounds(250, 0, 500, 700);
+        htp_panel.setBounds(250, 35, 500, 700);
+        htp_panel.setVisible(false);
         container.add(htp_panel);
-        
-        
-        
-        
-        
         
         mode_panel = new JPanel(new GridBagLayout());
         mode_panel.setBackground(Color.LIGHT_GRAY);
@@ -101,14 +102,14 @@ public class game {
         mode_panel.add(chooseModeLabel, gbc4);
         
         casualBtn = new JButton();
-        casualBtn.setIcon(new ImageIcon("assets/casual_button.png"));
+        casualBtn.setIcon(new ImageIcon(".//assets/casual_button.png"));
         casualBtn.setBackground(null);
         casualBtn.setBorder(null);
         casualBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
-                difficulty_panel.setVisible(true);
-                mode_panel.setVisible(false);
+            	mode_panel.setVisible(false);
+                difficulty_panel.setVisible(true);          
             }
         });
         gbc4.gridx = 0;
@@ -116,7 +117,7 @@ public class game {
         mode_panel.add(casualBtn, gbc4);
         
         reviewBtn = new JButton();
-        reviewBtn.setIcon(new ImageIcon("assets/review_button.png"));
+        reviewBtn.setIcon(new ImageIcon(".//assets/review_button.png"));
         reviewBtn.setBackground(null);
         reviewBtn.setBorder(null);
         reviewBtn.addActionListener(new ActionListener() {
@@ -129,8 +130,6 @@ public class game {
         gbc4.gridx = 0;
         gbc4.gridy = 2;
         mode_panel.add(reviewBtn, gbc4);
-        
-        
         
         difficulty_panel = new JPanel(new GridBagLayout());
         difficulty_panel.setBackground(Color.LIGHT_GRAY);
@@ -148,7 +147,7 @@ public class game {
         difficulty_panel.add(chooseDifficultyLabel, gbc5);
         
         easyBtn = new JButton();
-        easyBtn.setIcon(new ImageIcon("assets/easy_button.png"));
+        easyBtn.setIcon(new ImageIcon(".//assets/easy_button.png"));
         easyBtn.setBackground(null);
         easyBtn.setBorder(null);
         easyBtn.addActionListener(new ActionListener() {
@@ -162,12 +161,10 @@ public class game {
         		roundLabel.setText(Integer.toString(roundNum) + "/10");
         		usedParts.clear();
             	generatePart();
-            	
-            	main_panel.setVisible(false);
+
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
-
             }
         });
         gbc5.gridx = 0;
@@ -175,7 +172,7 @@ public class game {
         difficulty_panel.add(easyBtn, gbc5);
         
         averageBtn = new JButton();
-        averageBtn.setIcon(new ImageIcon("assets/average_button.png"));
+        averageBtn.setIcon(new ImageIcon(".//assets/average_button.png"));
         averageBtn.setBackground(null);
         averageBtn.setBorder(null);
         averageBtn.addActionListener(new ActionListener() {
@@ -190,11 +187,9 @@ public class game {
         		usedParts.clear();
             	generatePart();
             	
-            	main_panel.setVisible(false);
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
-
             }
         });
         gbc5.gridx = 0;
@@ -202,11 +197,12 @@ public class game {
         difficulty_panel.add(averageBtn, gbc5);
         
         difficultBtn = new JButton();
-        difficultBtn.setIcon(new ImageIcon("assets/difficult_button.png"));
+        difficultBtn.setIcon(new ImageIcon(".//assets/difficult_button.png"));
         difficultBtn.setBackground(null);
         difficultBtn.setBorder(null);
         difficultBtn.addActionListener(new ActionListener() {
             @Override
+            
             public void actionPerformed(ActionEvent e) {
             	fill();
             	score = 0;
@@ -217,18 +213,14 @@ public class game {
         		usedParts.clear();
             	generatePart();
             	
-            	main_panel.setVisible(false);
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
-
             }
         });
         gbc5.gridx = 0;
         gbc5.gridy = 3;
         difficulty_panel.add(difficultBtn, gbc5);
-        
-        
         
         topic_panel = new JPanel(new GridBagLayout());
         topic_panel.setBackground(Color.LIGHT_GRAY);
@@ -245,8 +237,6 @@ public class game {
         gbc6.insets = new Insets(10, 0, 65, 0);
         topic_panel.add(chooseTopicLabel, gbc6);
         
-        
-        
         back_panel = new JPanel();
         back_panel.setBackground(Color.LIGHT_GRAY);
         back_panel.setBounds(14, 35, 30, 30);
@@ -254,16 +244,35 @@ public class game {
         container.add(back_panel);
         
         backBtn = new JButton();
-        backBtn.setIcon(new ImageIcon("assets/back_button.png"));
+        backBtn.setIcon(new ImageIcon(".//assets/back_button.png"));
         backBtn.setBackground(null);
         backBtn.setBorder(null);
         backBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	game_panel.setVisible(false);
-            	back_panel.setVisible(false);
-            	timer_panel.setVisible(false);
-            	main_panel.setVisible(true);
-            	usedParts.clear();
+            	if (mode_panel.isVisible()) {
+            		mode_panel.setVisible(false);
+            		back_panel.setVisible(false);
+            		main_panel.setVisible(true);
+            	}
+            	else if (htp_panel.isVisible()) {
+            		htp_panel.setVisible(false);
+            		back_panel.setVisible(false);
+            		main_panel.setVisible(true);
+            	}
+            	else if (difficulty_panel.isVisible()) {
+            		difficulty_panel.setVisible(false);
+            		mode_panel.setVisible(true);
+            	}
+            	else if (topic_panel.isVisible()) {
+            		topic_panel.setVisible(false);
+            		mode_panel.setVisible(true);
+            	}
+            	else if (game_panel.isVisible() && timer_panel.isVisible()) {
+            		game_panel.setVisible(false);
+            		timer_panel.setVisible(false);
+            		difficulty_panel.setVisible(true);
+            		usedParts.clear();
+            	}
             }
         });
         back_panel.add(backBtn);
@@ -323,12 +332,13 @@ public class game {
         });
 
         submitBtn = new JButton();
-        submitBtn.setIcon(new ImageIcon("assets/submit_btn.png"));
+        submitBtn.setIcon(new ImageIcon(".//assets/submit_btn.png"));
         submitBtn.setBackground(null);
         submitBtn.setBorder(null);
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Call submitAnswer method when submit button is clicked
                 submitAnswer();
             }
         });
@@ -337,7 +347,7 @@ public class game {
         game_panel.add(submitBtn, gbc2);
 
         skipBtn = new JButton();
-        skipBtn.setIcon(new ImageIcon("assets/skip_button.png"));
+        skipBtn.setIcon(new ImageIcon(".//assets/skip_button.png"));
         skipBtn.setBackground(null);
         skipBtn.setBorder(null);
         skipBtn.addActionListener(new ActionListener() {
@@ -387,7 +397,7 @@ public class game {
         game_over_panel.add(totalLabel, gbc3);
 
         tryAgainBtn = new JButton();
-        tryAgainBtn.setIcon(new ImageIcon("assets/try_again_button.png"));
+        tryAgainBtn.setIcon(new ImageIcon(".//assets/try_again_button.png"));
         tryAgainBtn.setBackground(null);
         tryAgainBtn.setBorder(null);
         tryAgainBtn.addActionListener(new ActionListener() {
@@ -412,7 +422,7 @@ public class game {
         game_over_panel.add(tryAgainBtn, gbc3);
 
         menuBtn = new JButton();
-        menuBtn.setIcon(new ImageIcon("assets/menu_button.png"));
+        menuBtn.setIcon(new ImageIcon(".//assets/menu_button.png"));
         menuBtn.setBackground(null);
         menuBtn.setBorder(null);
         menuBtn.addActionListener(new ActionListener() {
@@ -588,4 +598,6 @@ public class game {
             answerInputField.setText("");
         }
     }
+    
+
 }
