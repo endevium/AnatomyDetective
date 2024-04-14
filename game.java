@@ -9,8 +9,10 @@ import java.util.Random;
 import java.util.Set;
 import java.awt.event.*;
 
-public class game {
 
+public class game {
+	
+	private static Set<String> usedParts = new HashSet<>();
 	private static JProgressBar PBar;
     private static JFrame main_frame;
     private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel;
@@ -18,8 +20,7 @@ public class game {
     private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, easyBtn, averageBtn, difficultBtn, continueBtn, topicBtn1, topicBtn2, topicBtn3, topicBtn4, topicBtn5, topicBtn6, topicBtn7, topicBtn8, topicBtn9;
     private static String correctAnswer; 
     private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel, review_panel;
-    private static int score;
-    private static int roundNum;
+    private static int score, roundNum, maxRound;
     private static String difficulty, topic;
     private static boolean isReview;
     
@@ -38,6 +39,7 @@ public class game {
         topic = "";
         score = 0;
         roundNum = 1;
+        maxRound = 10;
         isReview = false;
         
         main_panel = new JPanel(new GridBagLayout());
@@ -112,7 +114,8 @@ public class game {
         casualBtn.setBorder(null);
         casualBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { 
+            public void actionPerformed(ActionEvent e) {
+            	maxRound = 10;
             	mode_panel.setVisible(false);
                 difficulty_panel.setVisible(true);          
             }
@@ -173,9 +176,8 @@ public class game {
                 review_panel.repaint();
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
-        		roundLabel.setText(Integer.toString(roundNum) + "/10");
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
         		usedParts.clear(); 
-        		 		
 
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
@@ -207,7 +209,7 @@ public class game {
                 review_panel.repaint();
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
-        		roundLabel.setText(Integer.toString(roundNum) + "/10");
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
         		usedParts.clear();
             	
             	difficulty_panel.setVisible(false);
@@ -240,7 +242,7 @@ public class game {
                 review_panel.repaint();
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
-        		roundLabel.setText(Integer.toString(roundNum) + "/10");
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
         		usedParts.clear();
         		
             	
@@ -272,6 +274,28 @@ public class game {
         topicBtn1.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn1.setBackground(null);
         topicBtn1.setBorder(null);
+        topicBtn1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> firstTopic = dictionary.getFirstTopic();
+                generatePart(firstTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	topic = "first";
+            	isReview = true;
+            	
+            	maxRound = (isReview) ? firstTopic.size() : 10;
+
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        		
+            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 0;
         gbc6.gridy = 1;
         topic_panel.add(topicBtn1, gbc6);
@@ -280,6 +304,28 @@ public class game {
         topicBtn2.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn2.setBackground(null);
         topicBtn2.setBorder(null);
+        topicBtn2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> secondTopic = dictionary.getSecondTopic();
+                generatePart(secondTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	isReview = true;
+            	
+            	maxRound = (isReview) ? secondTopic.size() : 10;
+
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        		
+        		
+        	            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 1;
         gbc6.gridy = 1;
         topic_panel.add(topicBtn2, gbc6);
@@ -288,6 +334,27 @@ public class game {
         topicBtn3.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn3.setBackground(null);
         topicBtn3.setBorder(null);
+        topicBtn3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> thirdTopic = dictionary.getThirdTopic();
+                generatePart(thirdTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	topic = "third";
+            	isReview = true;
+            	
+            	maxRound = (isReview) ? thirdTopic.size() : 10;
+
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        	            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 2;
         gbc6.gridy = 1;
         topic_panel.add(topicBtn3, gbc6);
@@ -296,6 +363,25 @@ public class game {
         topicBtn4.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn4.setBackground(null);
         topicBtn4.setBorder(null);
+        topicBtn4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> fourthTopic = dictionary.getFourthTopic();
+                generatePart(fourthTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	topic = "fourth";
+                review_panel.revalidate();
+                review_panel.repaint();
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        	            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 0;
         gbc6.gridy = 2;
         topic_panel.add(topicBtn4, gbc6);
@@ -304,6 +390,27 @@ public class game {
         topicBtn5.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn5.setBackground(null);
         topicBtn5.setBorder(null);
+        topicBtn5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> fifthTopic = dictionary.getFifthTopic();
+                generatePart(fifthTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	topic = "fifth";
+            	isReview = true;
+            	
+            	maxRound = (isReview) ? fifthTopic.size() : 10;
+
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        	            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 1;
         gbc6.gridy = 2;
         topic_panel.add(topicBtn5, gbc6);
@@ -312,6 +419,27 @@ public class game {
         topicBtn6.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn6.setBackground(null);
         topicBtn6.setBorder(null);
+        topicBtn6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> sixthTopic = dictionary.getSixthTopic();
+                generatePart(sixthTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	topic = "sixth";
+            	isReview = true;
+            	
+            	maxRound = (isReview) ? sixthTopic.size() : 10;
+
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        	            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 2;
         gbc6.gridy = 2;
         topic_panel.add(topicBtn6, gbc6);
@@ -320,6 +448,27 @@ public class game {
         topicBtn7.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn7.setBackground(null);
         topicBtn7.setBorder(null);
+        topicBtn7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> seventhTopic = dictionary.getSeventhTopic();
+                generatePart(seventhTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	topic = "seventh";
+            	isReview = true;
+            	
+            	maxRound = (isReview) ? seventhTopic.size() : 10;
+
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        	            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 0;
         gbc6.gridy = 3;
         topic_panel.add(topicBtn7, gbc6);
@@ -328,6 +477,27 @@ public class game {
         topicBtn8.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn8.setBackground(null);
         topicBtn8.setBorder(null);
+        topicBtn8.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> eighthTopic = dictionary.getEighthTopic();
+                generatePart(eighthTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	topic = "eighth";
+            	isReview = true;
+            	
+            	maxRound = (isReview) ? eighthTopic.size() : 10;
+
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        	            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 1;
         gbc6.gridy = 3;
         topic_panel.add(topicBtn8, gbc6);
@@ -336,6 +506,27 @@ public class game {
         topicBtn9.setIcon(new ImageIcon(".//assets/placeholder_button.png"));
         topicBtn9.setBackground(null);
         topicBtn9.setBorder(null);
+        topicBtn9.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> ninthTopic = dictionary.getNinthTopic();
+                generatePart(ninthTopic);
+                
+            	score = 0;
+            	roundNum = 1;
+            	topic = "ninth";
+            	isReview = true;
+            	
+            	maxRound = (isReview) ? ninthTopic.size() : 10;
+
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+        		usedParts.clear();
+        	            	
+            	topic_panel.setVisible(false);
+            	review_panel.setVisible(true);
+            }
+        });
         gbc6.gridx = 2;
         gbc6.gridy = 3;
         topic_panel.add(topicBtn9, gbc6);
@@ -356,7 +547,7 @@ public class game {
             	roundNum = 1;
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
-        		roundLabel.setText(Integer.toString(roundNum) + "/10");
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
                 
             	if (mode_panel.isVisible()) {
             		mode_panel.setVisible(false);
@@ -375,18 +566,24 @@ public class game {
             	else if (topic_panel.isVisible()) {
             		topic_panel.setVisible(false);
             		mode_panel.setVisible(true);
+            		isReview = false;
+            		maxRound = 10;
             	}
             	else if (review_panel.isVisible()) {
             		review_panel.setVisible(false);
-            		mode_panel.setVisible(true); // update when topics are added
+            		mode_panel.setVisible(true);
             		usedParts.clear();
-        		
-            		review_panel.remove(reviewImageLabel);
-            		review_panel.remove(partNameLabel);
-            		review_panel.revalidate();
-            		review_panel.repaint();
             	}
-            	else if (game_panel.isVisible() && timer_panel.isVisible()) {
+            	else if (game_panel.isVisible() && isReview == true) {
+            		game_panel.setVisible(false);
+            		timer_panel.setVisible(false);
+            		topic_panel.setVisible(true);
+            		scoreLabel.setVisible(true);
+            		isReview = false;
+            		maxRound = 10;
+            		usedParts.clear();
+            	}
+            	else if (game_panel.isVisible()) {
             		game_panel.setVisible(false);
             		timer_panel.setVisible(false);
             		difficulty_panel.setVisible(true);
@@ -421,10 +618,10 @@ public class game {
             @Override
             public void actionPerformed(ActionEvent e) {
             	isReview = true;
-            	fill();
             	review_panel.setVisible(false);
             	game_panel.setVisible(true);
-            	timer_panel.setVisible(true);
+            	timer_panel.setVisible(false);
+            	scoreLabel.setVisible(false);
             }
         });
         review_panel.add(continueBtn, gbc7);
@@ -487,14 +684,7 @@ public class game {
         submitBtn.setBorder(null);
         submitBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-            	if (isReview == true) {
-            		review_panel.setVisible(true);
-            		game_panel.setVisible(false);
-            		timer_panel.setVisible(false);
-            	}
-            	review_panel.remove(reviewImageLabel);
-                review_panel.remove(partNameLabel);    	
+            public void actionPerformed(ActionEvent e) {	
                 submitAnswer();
                 review_panel.revalidate();
                 review_panel.repaint();
@@ -510,21 +700,21 @@ public class game {
         skipBtn.setBorder(null);
         skipBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (roundNum < 10) {
+                if (roundNum < maxRound) {
                 	if (isReview == true) {
                 		review_panel.setVisible(true);
                 		game_panel.setVisible(false);
                 		timer_panel.setVisible(false);
                 	}
-                    fill();
-                    roundNum += 1;
-                    scoreLabel.setText(Integer.toString(score));
-                    totalLabel.setText("Score: " + Integer.toString(score));
-                    roundLabel.setText(Integer.toString(roundNum) + "/10");
-                    answerInputField.setText("");
-                    review_panel.remove(reviewImageLabel);
-                    review_panel.remove(partNameLabel);
+                	else { 
+                		fill();
+                		totalLabel.setText("Score: " + Integer.toString(score));
+                	}
                     
+                    roundNum += 1;
+                    scoreLabel.setText(Integer.toString(score)); 
+                    roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
+                    answerInputField.setText(""); 
                     AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
                     
                     if (isReview == false) {
@@ -541,25 +731,67 @@ public class game {
                     			generatePart(difficultDictionary);
                     	}
                     }
-                	review_panel.revalidate();
-                    review_panel.repaint();
-                } else if (roundNum == 10) {
+                    else {
+                    	switch (topic) {
+                    		case "first":
+                    			Map<String, String> firstTopic = dictionary.getFirstTopic();
+                                generatePart(firstTopic);
+                                break;
+                    		case "second":
+                    			Map<String, String> secondTopic = dictionary.getSecondTopic();
+                                generatePart(secondTopic);
+                                break;
+                    		case "third":
+                    			Map<String, String> thirdTopic = dictionary.getThirdTopic();
+                                generatePart(thirdTopic);
+                                break;
+                    		case "fourth":
+                    			Map<String, String> fourthTopic = dictionary.getFourthTopic();
+                                generatePart(fourthTopic);
+                                break;
+                    		case "fifth":
+                    			Map<String, String> fifthTopic = dictionary.getFifthTopic();
+                                generatePart(fifthTopic);
+                                break;
+                    		case "sixth":
+                    			Map<String, String> sixthTopic = dictionary.getSixthTopic();
+                                generatePart(sixthTopic);
+                                break;
+                    		case "seven":
+                    			Map<String, String> seventhTopic = dictionary.getSeventhTopic();
+                                generatePart(seventhTopic);
+                                break;
+                    		case "eighth":
+                    			Map<String, String> eighthTopic = dictionary.getEighthTopic();
+                                generatePart(eighthTopic);
+                                break;
+                    		case "ninth":
+                    			Map<String, String> ninthTopic = dictionary.getNinthTopic();
+                                generatePart(ninthTopic);
+                                break;
+                    	}
+                    }
+                } else if (roundNum == maxRound) {
                 	if (isReview == true) {
                 		isReview = true;
                 	}
+                	
+                	if (isReview == false) {
+                    	totalLabel.setText("Score: " + Integer.toString(score)); 
+                    }
+                    else {
+                    	totalLabel.setText("You have completed the review!"); 
+                    }
+                	
                     Timer timer = (Timer) timer_panel.getClientProperty("timer");
                     if (timer != null && timer.isRunning()) {
                         timer.stop();
                     }
                     PBar.setValue(0);
                     scoreLabel.setText(Integer.toString(score));
-                    totalLabel.setText("Score: " + Integer.toString(score));
-                    roundLabel.setText(Integer.toString(roundNum) + "/10");
+                    roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
                     answerInputField.setText("");
-                    review_panel.remove(reviewImageLabel);
-                    review_panel.remove(partNameLabel);
-                	review_panel.revalidate();
-                    review_panel.repaint();
+
                     back_panel.setVisible(false);
                     game_panel.setVisible(false);
                     timer_panel.setVisible(false);
@@ -578,7 +810,7 @@ public class game {
         container.add(game_over_panel);
 
         totalLabel = new JLabel("Score: " + score);
-        totalLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 30));
         totalLabel.setForeground(Color.BLACK);
         GridBagConstraints gbc3 = new GridBagConstraints();
         gbc3.gridx = 0;
@@ -600,17 +832,18 @@ public class game {
             	}
             	else {
             		fill();
-            		timer_panel.setVisible(true);
+            		game_panel.setVisible(true);
+            		timer_panel.setVisible(true);		
             	}
                 game_over_panel.setVisible(false);
                 score = 0;
                 roundNum = 1;
                 scoreLabel.setText(Integer.toString(score));
-                totalLabel.setText("Score: " + Integer.toString(score));
-                roundLabel.setText(Integer.toString(roundNum) + "/10");
+                roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
                 usedParts.clear();
                 review_panel.remove(reviewImageLabel);
                 review_panel.remove(partNameLabel);
+               
                 AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
                 
                 if (isReview == false) {
@@ -627,10 +860,47 @@ public class game {
                 			generatePart(difficultDictionary);
                 	}
                 }
-            	review_panel.revalidate();
-                review_panel.repaint();
+                else {
+                	switch (topic) {
+                		case "first":
+                			Map<String, String> firstTopic = dictionary.getFirstTopic();
+                            generatePart(firstTopic);
+                            break;
+                		case "second":
+                			Map<String, String> secondTopic = dictionary.getSecondTopic();
+                            generatePart(secondTopic);
+                            break;
+                		case "third":
+                			Map<String, String> thirdTopic = dictionary.getThirdTopic();
+                            generatePart(thirdTopic);
+                            break;
+                		case "fourth":
+                			Map<String, String> fourthTopic = dictionary.getFourthTopic();
+                            generatePart(fourthTopic);
+                            break;
+                		case "fifth":
+                			Map<String, String> fifthTopic = dictionary.getFifthTopic();
+                            generatePart(fifthTopic);
+                            break;
+                		case "sixth":
+                			Map<String, String> sixthTopic = dictionary.getSixthTopic();
+                            generatePart(sixthTopic);
+                            break;
+                		case "seven":
+                			Map<String, String> seventhTopic = dictionary.getSeventhTopic();
+                            generatePart(seventhTopic);
+                            break;
+                		case "eighth":
+                			Map<String, String> eighthTopic = dictionary.getEighthTopic();
+                            generatePart(eighthTopic);
+                            break;
+                		case "ninth":
+                			Map<String, String> ninthTopic = dictionary.getNinthTopic();
+                            generatePart(ninthTopic);
+                            break;
+                	}
+                }
                 back_panel.setVisible(true);
-                game_panel.setVisible(true);
             }
         });
         gbc3.gridx = 0;
@@ -650,14 +920,13 @@ public class game {
                 score = 0;
                 roundNum = 1;
                 scoreLabel.setText(Integer.toString(score));
-                totalLabel.setText("Score: " + Integer.toString(score));
-                roundLabel.setText(Integer.toString(roundNum) + "/10");
+                roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
                 usedParts.clear();
-                review_panel.remove(reviewImageLabel);
-                review_panel.remove(partNameLabel);
-            	review_panel.revalidate();
-                review_panel.repaint();
                 main_panel.setVisible(true);
+                
+                if (isReview == true) {
+                	isReview = false;
+                }
             }
         });
         gbc3.gridx = 0;
@@ -666,22 +935,26 @@ public class game {
 
         main_frame.setVisible(true);
         
-    }
+    }    
 
-    static Set<String> usedParts = new HashSet<>();
-
-    static void generatePart(Map<String, String> dictionary) {
+    public static void generatePart(Map<String, String> dictionary) {
+        Random random = new Random();
+        String partName;
+        
+        
+        
         if (usedParts.size() == dictionary.size()) {
+            // Reset usedParts if all parts have been used (assuming you want to reuse)
             usedParts.clear();
         }
 
-        Random random = new Random();
-        String partName = null;
-        
+        // Keep generating a partName until finding one that hasn't been used
         do {
-            partName = (String) dictionary.keySet().toArray()[random.nextInt(dictionary.size())];
+            int randomIndex = random.nextInt(dictionary.size());
+            partName = (String) dictionary.keySet().toArray()[randomIndex];
         } while (usedParts.contains(partName));
 
+        // Add the chosen partName to usedParts to mark it as used
         usedParts.add(partName);
 
         correctAnswer = partName;
@@ -691,6 +964,14 @@ public class game {
 
         if (imageLabel != null) {
             game_panel.remove(imageLabel);
+        }
+        
+        if (reviewImageLabel != null) {
+        	review_panel.remove(reviewImageLabel);
+        }
+        
+        if (partNameLabel != null) {
+        	review_panel.remove(partNameLabel);
         }
 
         imageLabel = new JLabel(partImage);
@@ -714,6 +995,8 @@ public class game {
         
         game_panel.revalidate();
         game_panel.repaint();
+        review_panel.revalidate();
+        review_panel.repaint();
     }
 
     static ImageIcon createResizedImageIcon(String path, int width, int height) {
@@ -753,14 +1036,13 @@ public class game {
         Timer timer = (Timer) timer_panel.getClientProperty("timer");
         if (timer != null && timer.isRunning()) {
             timer.stop();
-        }
-        
+        }   
     
         if (roundNum < 10) {
             fill();
             roundNum += 1;
             scoreLabel.setText(Integer.toString(score));
-            roundLabel.setText(Integer.toString(roundNum) + "/10");
+            roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
             answerInputField.setText("");
             AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
             
@@ -778,9 +1060,50 @@ public class game {
             			generatePart(difficultDictionary);
             	}
             }
+            
+            else {
+            	switch (topic) {
+            		case "first":
+            			Map<String, String> firstTopic = dictionary.getFirstTopic();
+                        generatePart(firstTopic);
+                        break;
+            		case "second":
+            			Map<String, String> secondTopic = dictionary.getSecondTopic();
+                        generatePart(secondTopic);
+                        break;
+            		case "third":
+            			Map<String, String> thirdTopic = dictionary.getThirdTopic();
+                        generatePart(thirdTopic);
+                        break;
+            		case "fourth":
+            			Map<String, String> fourthTopic = dictionary.getFourthTopic();
+                        generatePart(fourthTopic);
+                        break;
+            		case "fifth":
+            			Map<String, String> fifthTopic = dictionary.getFifthTopic();
+                        generatePart(fifthTopic);
+                        break;
+            		case "sixth":
+            			Map<String, String> sixthTopic = dictionary.getSixthTopic();
+                        generatePart(sixthTopic);
+                        break;
+            		case "seven":
+            			Map<String, String> seventhTopic = dictionary.getSeventhTopic();
+                        generatePart(seventhTopic);
+                        break;
+            		case "eighth":
+            			Map<String, String> eighthTopic = dictionary.getEighthTopic();
+                        generatePart(eighthTopic);
+                        break;
+            		case "ninth":
+            			Map<String, String> ninthTopic = dictionary.getNinthTopic();
+                        generatePart(ninthTopic);
+                        break;
+            	}
+            }
         } else if (roundNum == 10) {
             PBar.setValue(0);
-            roundLabel.setText(Integer.toString(roundNum) + "/10");
+            roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
             answerInputField.setText("");
             back_panel.setVisible(false);
             game_panel.setVisible(false);
@@ -791,10 +1114,11 @@ public class game {
 
     static void submitAnswer() {
         String userAnswer = answerInputField.getText();
-        if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum == 10) {
+        
+        if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum == maxRound) {
             score += 0;
             int count = PBar.getValue();
-    
+            
             if (count >= 1 && count <= 20) {
                 score += 100;
             } else if (count >= 21 && count <= 40) {
@@ -808,35 +1132,51 @@ public class game {
             } else if (count >= 100) {
                 score += 0;
             }
-            totalLabel.setText("Score: " + Integer.toString(score));
+            
+            if (isReview == false) {
+            	totalLabel.setText("Score: " + Integer.toString(score)); 
+            }
+            else {
+            	totalLabel.setText("You have completed the review!"); 
+            }
             back_panel.setVisible(false);
             game_panel.setVisible(false);
             timer_panel.setVisible(false);
             game_over_panel.setVisible(true);
             answerInputField.setText("");
-        } else if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum < 11) {
-            fill();
-            score += 0;
+        } else if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum < (maxRound + 1)) {    
             roundNum += 1;
             int count = PBar.getValue();
-    
-            if (count >= 1 && count <= 20) {
-                score += 100;
-            } else if (count >= 21 && count <= 40) {
-                score += 70;
-            } else if (count >= 41 && count <= 60) {
-                score += 50;
-            } else if (count >= 61 && count <= 80) {
-                score += 20;
-            } else if (count > 81) {
-                score += 10;
-            } else if (count >= 100) {
-                score += 0;
+            
+            if (isReview == true) {
+            	review_panel.setVisible(true);
+            	game_panel.setVisible(false);
+            	timer_panel.setVisible(false);
             }
+            else {
+            	fill();
+                score += 0;
+                
+                if (count >= 1 && count <= 20) {
+                	score += 100;
+                } else if (count >= 21 && count <= 40) {
+                	score += 70;
+                } else if (count >= 41 && count <= 60) {
+                	score += 50;
+                } else if (count >= 61 && count <= 80) {
+                	score += 20;
+                } else if (count > 81) {
+                	score += 10;
+                } else if (count >= 100) {
+                	score += 0;
+                }
+            }
+            
+            
             scoreLabel.setText(Integer.toString(score));
-            totalLabel.setText("Score: " + Integer.toString(score));
-            roundLabel.setText(Integer.toString(roundNum) + "/10");
+            roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
             answerInputField.setText("");
+            
             AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
             
             if (isReview == false) {
@@ -851,6 +1191,46 @@ public class game {
             		case "difficult":
             			Map<String, String> difficultDictionary = dictionary.getAverageDictionary();
             			generatePart(difficultDictionary);
+            	}
+            }
+            else {
+            	switch (topic) {
+            		case "first":
+            			Map<String, String> firstTopic = dictionary.getFirstTopic();
+                        generatePart(firstTopic);
+                        break;
+            		case "second":
+            			Map<String, String> secondTopic = dictionary.getSecondTopic();
+                        generatePart(secondTopic);
+                        break;
+            		case "third":
+            			Map<String, String> thirdTopic = dictionary.getThirdTopic();
+                        generatePart(thirdTopic);
+                        break;
+            		case "fourth":
+            			Map<String, String> fourthTopic = dictionary.getFourthTopic();
+                        generatePart(fourthTopic);
+                        break;
+            		case "fifth":
+            			Map<String, String> fifthTopic = dictionary.getFifthTopic();
+                        generatePart(fifthTopic);
+                        break;
+            		case "sixth":
+            			Map<String, String> sixthTopic = dictionary.getSixthTopic();
+                        generatePart(sixthTopic);
+                        break;
+            		case "seven":
+            			Map<String, String> seventhTopic = dictionary.getSeventhTopic();
+                        generatePart(seventhTopic);
+                        break;
+            		case "eighth":
+            			Map<String, String> eighthTopic = dictionary.getEighthTopic();
+                        generatePart(eighthTopic);
+                        break;
+            		case "ninth":
+            			Map<String, String> ninthTopic = dictionary.getNinthTopic();
+                        generatePart(ninthTopic);
+                        break;
             	}
             }
         } else {
