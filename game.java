@@ -1,6 +1,9 @@
 package com.BIT5.AnatomyDetective;
 
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashSet;
@@ -8,6 +11,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.awt.event.*;
+import java.io.File;
 
 
 public class game {
@@ -15,9 +19,9 @@ public class game {
 	private static Set<String> usedParts = new HashSet<>();
 	private static JProgressBar PBar;
     private static JFrame main_frame;
-    private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel;
+    private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel, htpImageLabel, htpLabel;
     private static JTextField answerInputField;
-    private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, easyBtn, averageBtn, difficultBtn, continueBtn, topicBtn1, topicBtn2, topicBtn3, topicBtn4, topicBtn5, topicBtn6, topicBtn7, topicBtn8, topicBtn9;
+    private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, modelBtn, easyBtn, averageBtn, difficultBtn, continueBtn, topicBtn1, topicBtn2, topicBtn3, topicBtn4, topicBtn5, topicBtn6, topicBtn7, topicBtn8, topicBtn9;
     private static String correctAnswer; 
     private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel, review_panel;
     private static int score, roundNum, maxRound;
@@ -44,7 +48,7 @@ public class game {
         
         main_panel = new JPanel(new GridBagLayout());
         main_panel.setBackground(Color.LIGHT_GRAY);
-        main_panel.setBounds(250, 0, 500, 700);
+        main_panel.setBounds(250, 30, 500, 700);
         container.add(main_panel);
         
         gameLogoLabel = new JLabel();
@@ -60,16 +64,48 @@ public class game {
         playBtn.setBackground(null);
         playBtn.setBorder(null);
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	main_panel.setVisible(false);
             	mode_panel.setVisible(true);
             	back_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         main_panel.add(playBtn, gbc);
+        
+        modelBtn = new JButton();
+        modelBtn.setIcon(new ImageIcon(".//assets/model_button.png"));
+        modelBtn.setBackground(null);
+        modelBtn.setBorder(null);
+        modelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        main_panel.add(modelBtn, gbc);
         
         htpBtn = new JButton();
         htpBtn.setIcon(new ImageIcon(".//assets/htp_button.png"));
@@ -83,15 +119,41 @@ public class game {
             	main_panel.setVisible(false);
             	htp_panel.setVisible(true);
             	back_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         main_panel.add(htpBtn, gbc);
         
         htp_panel = new JPanel(new GridBagLayout());
         htp_panel.setBackground(Color.LIGHT_GRAY);
-        htp_panel.setBounds(250, 35, 500, 700);
+        htp_panel.setBounds(250, 85, 500, 700);
         htp_panel.setVisible(false);
         container.add(htp_panel);
+        
+        htpImageLabel = new JLabel();
+        htpImageLabel.setIcon(new ImageIcon("assets/htpImage.png"));
+        GridBagConstraints gbc8 = new GridBagConstraints();
+        gbc8.gridx = 0;
+        gbc8.gridy = 0;
+        gbc8.insets = new Insets(10, 0, 25, 0);
+        htp_panel.add(htpImageLabel, gbc8);
+        
+        htpLabel = new JLabel("<html>Welcome to Anatomy Detective. In this game, you will be guessing different parts of the body. Click ‘Play’ to choose a gamemode. Click ‘Casual’ to play the guessing game, which will let you pick a difficulty. You can also review different systems of the body by clicking ‘Review’. </html>");
+        htpLabel.setForeground(Color.BLACK);
+        htpLabel.setPreferredSize(new Dimension(500, 220));
+        htpLabel.setFont(new Font("Arial", Font.PLAIN, 23));
+        gbc8.gridx = 0;
+        gbc8.gridy = 1;
+        htp_panel.add(htpLabel, gbc8);
         
         mode_panel = new JPanel(new GridBagLayout());
         mode_panel.setBackground(Color.LIGHT_GRAY);
@@ -117,7 +179,17 @@ public class game {
             public void actionPerformed(ActionEvent e) {
             	maxRound = 10;
             	mode_panel.setVisible(false);
-                difficulty_panel.setVisible(true);          
+                difficulty_panel.setVisible(true);  
+                
+                try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc4.gridx = 0;
@@ -133,6 +205,16 @@ public class game {
             public void actionPerformed(ActionEvent e) { 
                 topic_panel.setVisible(true);
                 mode_panel.setVisible(false);
+                
+                try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc4.gridx = 0;
@@ -182,6 +264,16 @@ public class game {
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc5.gridx = 0;
@@ -215,6 +307,16 @@ public class game {
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc5.gridx = 0;
@@ -244,11 +346,20 @@ public class game {
             	totalLabel.setText("Score: " + Integer.toString(score));
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
         		usedParts.clear();
-        		
-            	
+        			
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc5.gridx = 0;
@@ -294,6 +405,16 @@ public class game {
             	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 0;
@@ -324,6 +445,16 @@ public class game {
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 1;
@@ -353,6 +484,16 @@ public class game {
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 2;
@@ -380,6 +521,16 @@ public class game {
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 0;
@@ -409,6 +560,16 @@ public class game {
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 1;
@@ -438,6 +599,16 @@ public class game {
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 2;
@@ -467,6 +638,16 @@ public class game {
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 0;
@@ -496,6 +677,16 @@ public class game {
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 1;
@@ -525,6 +716,16 @@ public class game {
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         gbc6.gridx = 2;
@@ -543,6 +744,16 @@ public class game {
         backBtn.setBorder(null);
         backBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            	
             	score = 0;
             	roundNum = 1;
             	scoreLabel.setText(Integer.toString(score));
@@ -622,6 +833,16 @@ public class game {
             	game_panel.setVisible(true);
             	timer_panel.setVisible(false);
             	scoreLabel.setVisible(false);
+            	
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         review_panel.add(continueBtn, gbc7);
@@ -700,6 +921,16 @@ public class game {
         skipBtn.setBorder(null);
         skipBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            	
                 if (roundNum < maxRound) {
                 	if (isReview == true) {
                 		review_panel.setVisible(true);
@@ -825,6 +1056,16 @@ public class game {
         tryAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            	
             	if (isReview == true) {
             		review_panel.setVisible(true);
             		game_panel.setVisible(false);
@@ -914,6 +1155,16 @@ public class game {
         menuBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	try {
+            		File audioFile = new File("assets/button_click.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            	
                 back_panel.setVisible(false);
                 game_over_panel.setVisible(false);
                 timer_panel.setVisible(false);
@@ -1116,6 +1367,16 @@ public class game {
         String userAnswer = answerInputField.getText();
         
         if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum == maxRound) {
+        	try {
+        		File audioFile = new File("assets/correct_answer.wav");
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        	
             score += 0;
             int count = PBar.getValue();
             
@@ -1144,7 +1405,17 @@ public class game {
             timer_panel.setVisible(false);
             game_over_panel.setVisible(true);
             answerInputField.setText("");
-        } else if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum < (maxRound + 1)) {    
+        } else if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum < (maxRound + 1)) {
+        	try {
+        		File audioFile = new File("assets/correct_answer.wav");
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        	
             roundNum += 1;
             int count = PBar.getValue();
             
@@ -1235,6 +1506,15 @@ public class game {
             }
         } else {
             answerInputField.setText("");
+            try {
+        		File audioFile = new File("assets/wrong_answer.wav");
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
     
