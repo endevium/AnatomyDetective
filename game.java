@@ -150,7 +150,7 @@ public class game {
         htpLabel = new JLabel("<html>Welcome to Anatomy Detective. In this game, you will be guessing different parts of the body. Click ‘Play’ to choose a gamemode. Click ‘Casual’ to play the guessing game, which will let you pick a difficulty. You can also review different systems of the body by clicking ‘Review’. </html>");
         htpLabel.setForeground(Color.BLACK);
         htpLabel.setPreferredSize(new Dimension(500, 220));
-        htpLabel.setFont(new Font("Arial", Font.PLAIN, 23));
+        htpLabel.setFont(new Font("Zilla Slab", Font.PLAIN, 23));
         gbc8.gridx = 0;
         gbc8.gridy = 1;
         htp_panel.add(htpLabel, gbc8);
@@ -163,7 +163,7 @@ public class game {
         
         chooseModeLabel = new JLabel("Choose Gamemode");
         chooseModeLabel.setForeground(Color.BLACK);
-        chooseModeLabel.setFont(new Font("Arial", Font.PLAIN, 42));
+        chooseModeLabel.setFont(new Font("Zilla Slab", Font.PLAIN, 42));
         GridBagConstraints gbc4 = new GridBagConstraints();
         gbc4.gridx = 0;
         gbc4.gridy = 0;
@@ -229,7 +229,7 @@ public class game {
         
         chooseDifficultyLabel = new JLabel("Choose Difficulty");
         chooseDifficultyLabel.setForeground(Color.BLACK);
-        chooseDifficultyLabel.setFont(new Font("Arial", Font.PLAIN, 42));
+        chooseDifficultyLabel.setFont(new Font("Zilla Slab", Font.PLAIN, 42));
         GridBagConstraints gbc5 = new GridBagConstraints();
         gbc5.gridx = 0;
         gbc5.gridy = 0;
@@ -374,7 +374,7 @@ public class game {
         
         chooseTopicLabel = new JLabel("Choose Topic");
         chooseTopicLabel.setForeground(Color.BLACK);
-        chooseTopicLabel.setFont(new Font("Arial", Font.PLAIN, 42));
+        chooseTopicLabel.setFont(new Font("Zilla Slab", Font.PLAIN, 42));
         GridBagConstraints gbc6 = new GridBagConstraints();
         gbc6.gridx = 1;
         gbc6.gridy = 0;
@@ -811,7 +811,7 @@ public class game {
         container.add(review_panel);
         
         rememberThisLabel = new JLabel("Remember this!");
-        rememberThisLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        rememberThisLabel.setFont(new Font("Zilla Slab", Font.BOLD, 40));
         rememberThisLabel.setForeground(Color.BLACK);
         GridBagConstraints gbc7 = new GridBagConstraints();
         gbc7.gridx = 0;
@@ -854,7 +854,7 @@ public class game {
         container.add(game_panel);
 
         scoreLabel = new JLabel(Integer.toString(score));
-        scoreLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        scoreLabel.setFont(new Font("Zilla Slab", Font.BOLD, 40));
         scoreLabel.setForeground(Color.BLACK);
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.gridx = 0;
@@ -877,7 +877,7 @@ public class game {
         timer_panel.add(PBar);
         
         roundLabel = new JLabel(Integer.toString(roundNum) + "/10");
-        roundLabel.setFont(new Font("Arial", Font.PLAIN, 21));
+        roundLabel.setFont(new Font("Zilla Slab", Font.PLAIN, 21));
         roundLabel.setForeground(Color.BLACK);
         gbc2.gridx = 0;
         gbc2.gridy = 2;
@@ -1041,7 +1041,7 @@ public class game {
         container.add(game_over_panel);
 
         totalLabel = new JLabel("Score: " + score);
-        totalLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        totalLabel.setFont(new Font("Zilla Slab", Font.BOLD, 30));
         totalLabel.setForeground(Color.BLACK);
         GridBagConstraints gbc3 = new GridBagConstraints();
         gbc3.gridx = 0;
@@ -1238,7 +1238,7 @@ public class game {
         review_panel.add(reviewImageLabel, gbcImage2);
         
         partNameLabel = new JLabel(correctAnswer);
-        partNameLabel.setFont(new Font("Arial", Font.PLAIN, 27));
+        partNameLabel.setFont(new Font("Zilla Slab", Font.PLAIN, 27));
         partNameLabel.setForeground(Color.BLACK);
         gbcImage2.gridx = 0;
         gbcImage2.gridy = 2;
