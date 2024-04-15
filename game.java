@@ -1265,7 +1265,7 @@ public class game {
 
         timer = new Timer(1000, new ActionListener() { 
             int count = 0;
-            final int max_count = 60;
+            final int max_count = 30;
 
             @Override
             public void actionPerformed(ActionEvent e) {
