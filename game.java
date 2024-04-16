@@ -24,9 +24,9 @@ public class game {
     private static JCheckBox musicCheckbox, effectCheckbox;
     private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel, htpImageLabel, htpLabel, settingsLabel, cardioImageLabel, cardioLabel, digestiveImageLabel, digestiveLabel, endocrineImageLabel, endocrineLabel, excretoryImageLabel, excretoryLabel, immuneImageLabel, immuneLabel, integumentaryImageLabel, integumentaryLabel, nervousImageLabel, nervousLabel, reproductiveImageLabel, reproductiveImageLabel2, reproductiveLabel, respiratoryImageLabel, respiratoryLabel, skeletalImageLabel, skeletalLabel;
     private static JTextField answerInputField;
-    private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, modelBtn, easyBtn, averageBtn, difficultBtn, continueBtn, settingsBtn, closeBtn, nervousBtn, skeletalBtn, excretoryBtn, reproductiveBtn, endocrineBtn, respiratoryBtn, integumentaryBtn, cardioBtn, digestiveBtn, immuneBtn;
+    private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, modelBtn, easyBtn, averageBtn, difficultBtn, continueBtn, settingsBtn, closeBtn, nervousBtn, skeletalBtn, excretoryBtn, reproductiveBtn, endocrineBtn, respiratoryBtn, integumentaryBtn, cardioBtn, digestiveBtn, immuneBtn, nextBtn;
     private static String correctAnswer; 
-    private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel, review_panel, settingsBtn_panel, settings_panel, model_panel, nervous_panel, skeletal_panel, excretory_panel, reproductive_panel, endocrine_panel, respiratory_panel, integumentary_panel, cardiovascular_panel, digestive_panel, immune_panel;
+    private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel, review_panel, settingsBtn_panel, settings_panel, model_panel, nervous_panel, skeletal_panel, excretory_panel, reproductive_panel, endocrine_panel, respiratory_panel, integumentary_panel, cardiovascular_panel, digestive_panel, immune_panel, nextBtn_panel;
     private static int score, roundNum, maxRound;
     private static String difficulty, topic;
     private static boolean isReview;
@@ -101,6 +101,7 @@ public class game {
             	main_panel.setVisible(false);
             	back_panel.setVisible(true);
             	cardiovascular_panel.setVisible(true);
+                nextBtn_panel.setVisible(true);
             	
             	if (effectCheckbox.isSelected()) {
             		try {
@@ -991,12 +992,97 @@ public class game {
         back_panel.add(backBtn);
         
         // Model Panel
+        nextBtn_panel = new JPanel();
+        nextBtn_panel.setBackground(null);
+        nextBtn_panel.setVisible(false);
+        nextBtn_panel.setLayout(null);
+        nextBtn_panel.setBounds(900, 400, 100, 100);
+        container.add(nextBtn_panel);
+
+        
+        nextBtn = new JButton("next");
+        nextBtn.setBounds(0, 0, 50, 50);
+        nextBtn.setBackground(null);
+        nextBtn.setBorder(null);
+        
+        nextBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            
+            	
+            	if (effectCheckbox.isSelected()) { 
+            		try {
+            			File audioFile = new File("assets/button_click.wav");
+                    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    	Clip clip = AudioSystem.getClip();
+                    	clip.open(audioInputStream);
+                    	clip.start();
+                	} catch (Exception ex) {
+                    	ex.printStackTrace();
+                	}
+            	}
+                if ( cardiovascular_panel.isVisible()) {
+                    cardiovascular_panel.setVisible(false);
+                    digestive_panel.setVisible(true);
+                    
+                }
+
+                else if ( digestive_panel.isVisible()) {
+                    digestive_panel.setVisible(false);
+                    endocrine_panel.setVisible(true);
+                }
+
+                else if (endocrine_panel.isVisible()) {
+                    endocrine_panel.setVisible(false);
+                    excretory_panel.setVisible(true);
+                }
+                
+                else if (excretory_panel.isVisible()) {
+                    excretory_panel.setVisible(false);
+                    immune_panel.setVisible(true);
+                }
+
+                else if (immune_panel.isVisible()) {
+                    immune_panel.setVisible(false);
+                    integumentary_panel.setVisible(true);
+                }
+
+                else if (integumentary_panel.isVisible()) {
+                    integumentary_panel.setVisible(false);
+                    nervous_panel.setVisible(true);
+                }
+
+                else if (nervous_panel.isVisible()) {
+                    nervous_panel.setVisible(false);
+                    reproductive_panel.setVisible(true);
+                }
+
+                else if (reproductive_panel.isVisible()) {
+                    reproductive_panel.setVisible(false);
+                    respiratory_panel.setVisible(true);
+                }
+
+                else if (respiratory_panel.isVisible()) {
+                    respiratory_panel.setVisible(false);
+                    skeletal_panel.setVisible(true);
+                    nextBtn_panel.setVisible(false);
+                }
+                
+                
+
+            }
+        });
+        nextBtn_panel.add(nextBtn);
+       
+        
         cardiovascular_panel = new JPanel();
         cardiovascular_panel.setBackground(null);
         cardiovascular_panel.setVisible(false);
         cardiovascular_panel.setLayout(null);
         cardiovascular_panel.setBounds(320, 100, 383, 700);
         container.add(cardiovascular_panel);
+
+       
         
         cardioImageLabel = new JLabel();
         cardioImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
@@ -1136,7 +1222,7 @@ public class game {
         reproductive_panel.setVisible(false);
         reproductive_panel.setLayout(null);
         reproductive_panel.setBounds(320, 100, 383, 700);
-        container.add(nervous_panel);
+        container.add(reproductive_panel);
         
         reproductiveImageLabel = new JLabel();
         reproductiveImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
@@ -1162,7 +1248,7 @@ public class game {
         respiratory_panel.setVisible(false);
         respiratory_panel.setLayout(null);
         respiratory_panel.setBounds(320, 100, 383, 700);
-        container.add(nervous_panel);
+        container.add(respiratory_panel);
         
         respiratoryImageLabel = new JLabel();
         respiratoryImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
@@ -1182,7 +1268,7 @@ public class game {
         skeletal_panel.setVisible(false);
         skeletal_panel.setLayout(null);
         skeletal_panel.setBounds(320, 100, 383, 700);
-        container.add(nervous_panel);
+        container.add(skeletal_panel);
         
         skeletalImageLabel = new JLabel();
         skeletalImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
@@ -1263,6 +1349,9 @@ public class game {
         timer_panel.setBounds(0, -6, 1040, 100);
         timer_panel.setVisible(false);
         container.add(timer_panel);
+
+      
+
         
         PBar = new JProgressBar();
         PBar.setValue(0);
