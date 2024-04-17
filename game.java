@@ -1219,6 +1219,74 @@ public class game {
 
             }
         });
+	
+	// MODEL BACK BTN
+        back_panel = new JPanel();
+        back_panel.setBackground(null);
+        back_panel.setVisible(false); // Set to visible
+        back_panel.setLayout(null);
+        back_panel.setBounds(100, 400, 100, 100);
+        container.add(back_panel);
+
+        backBtn = new JButton("back");
+        backBtn.setBounds(0, 0, 50, 50);
+        backBtn.setBackground(null);
+        backBtn.setBorder(null);
+
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (effectCheckbox.isSelected()) { 
+            		try {
+            			File audioFile = new File("assets/button_click.wav");
+                    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    	Clip clip = AudioSystem.getClip();
+                    	clip.open(audioInputStream);
+                    	clip.start();
+                	} catch (Exception ex) {
+                    	ex.printStackTrace();
+                	}
+
+                if (endocrine_panel.isVisible()) {
+                    endocrine_panel.setVisible(false);
+                    digestive_panel.setVisible(true);
+                
+                } else if (excretory_panel.isVisible()) {
+                    excretory_panel.setVisible(false);
+                
+                    endocrine_panel.setVisible(true);
+                } else if (immune_panel.isVisible()) {
+                    immune_panel.setVisible(false);
+                    excretory_panel.setVisible(true);
+                
+                } else if (integumentary_panel.isVisible()) {
+                    integumentary_panel.setVisible(false);
+                    immune_panel.setVisible(true);
+                
+                } else if (nervous_panel.isVisible()) {
+                    nervous_panel.setVisible(false);
+                    integumentary_panel.setVisible(true);
+                
+                } else if (reproductive_panel.isVisible()) {
+                    reproductive_panel.setVisible(false);
+                    nervous_panel.setVisible(true);
+                
+                } else if (respiratory_panel.isVisible()) {
+                    respiratory_panel.setVisible(false);
+                    reproductive_panel.setVisible(true);
+                
+                } else if (skeletal_panel.isVisible()) {
+                    skeletal_panel.setVisible(false);
+                    respiratory_panel.setVisible(true);
+                    back_panel.setVisible(true);
+                    nextBtn_panel.setVisible(true);
+                }
+            }
+        }});
+        back_panel.add(backBtn);	
+
+	    
         nextBtn_panel.add(nextBtn);
        
         
