@@ -257,8 +257,6 @@ public class game {
         effectCheckbox.setBounds(25, 120, 250, 50);
         settings_panel.add(effectCheckbox);
         
-        
-        
         // How to Play panel
         htp_panel = new JPanel(new GridBagLayout());
         htp_panel.setBackground(null);
@@ -1033,7 +1031,8 @@ public class game {
             	}
             	else if (review_panel.isVisible()) {
             		review_panel.setVisible(false);
-            		mode_panel.setVisible(true);
+            		topic_panel.setVisible(true);
+            		isReview = false;
             		usedParts.clear();
             	}
             	else if (game_panel.isVisible() && isReview == true) {
@@ -1705,7 +1704,7 @@ public class game {
                     			Map<String, String> averageDictionary = dictionary.getAverageDictionary();
                     			generatePart(averageDictionary);
                     		case "difficult":
-                    			Map<String, String> difficultDictionary = dictionary.getAverageDictionary();
+                    			Map<String, String> difficultDictionary = dictionary.getDifficultDictionary();
                     			generatePart(difficultDictionary);
                     	}
                     }
@@ -1864,7 +1863,7 @@ public class game {
                 			Map<String, String> averageDictionary = dictionary.getAverageDictionary();
                 			generatePart(averageDictionary);
                 		case "difficult":
-                			Map<String, String> difficultDictionary = dictionary.getAverageDictionary();
+                			Map<String, String> difficultDictionary = dictionary.getDifficultDictionary();
                 			generatePart(difficultDictionary);
                 	}
                 }
@@ -1984,7 +1983,7 @@ public class game {
         correctAnswer = partName;
         String imageDir = dictionary.get(partName);
 
-        ImageIcon partImage = createResizedImageIcon(imageDir, 350, 350);
+        ImageIcon partImage = createResizedImageIcon(imageDir, 400, 400);
 
         if (imageLabel != null) {
             game_panel.remove(imageLabel);
@@ -2081,7 +2080,7 @@ public class game {
             			Map<String, String> averageDictionary = dictionary.getAverageDictionary();
             			generatePart(averageDictionary);
             		case "difficult":
-            			Map<String, String> difficultDictionary = dictionary.getAverageDictionary();
+            			Map<String, String> difficultDictionary = dictionary.getDifficultDictionary();
             			generatePart(difficultDictionary);
             	}
             }
@@ -2239,7 +2238,7 @@ public class game {
             			Map<String, String> averageDictionary = dictionary.getAverageDictionary();
             			generatePart(averageDictionary);
             		case "difficult":
-            			Map<String, String> difficultDictionary = dictionary.getAverageDictionary();
+            			Map<String, String> difficultDictionary = dictionary.getDifficultDictionary();
             			generatePart(difficultDictionary);
             	}
             }
