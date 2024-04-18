@@ -40,8 +40,14 @@ public class AnatomyDetectiveDictionary {
 		easyDictionary.put("Left lung", "assets/left_lung.png");
 		easyDictionary.put("Right lung", "assets/right_lung.png");
 		easyDictionary.put("Nose", "assets/nose.png");
-		//easyDictionary.put("", "assets/");
-		
+		easyDictionary.put("Bladder", "assets/bladder.png");
+		easyDictionary.put("Urethra", "assets/urethra_men.png");
+		easyDictionary.put("Foreskin", "assets/foreskin.png");
+		easyDictionary.put("Vagina", "assets/vagina.png");
+		easyDictionary.put("Testicles", "assets/testicles.png");
+		easyDictionary.put("Uterus", "assets/uterus.png");
+		easyDictionary.put("Prostate", "assets/prostate.png");
+		//easyDictionary.put("", "assets/");	
 		
 		averageDictionary = new HashMap<>();
 		averageDictionary.put("Left ventricle", "assets/left_ventricle.png");
@@ -65,7 +71,12 @@ public class AnatomyDetectiveDictionary {
 		averageDictionary.put("Pharynx", "assets/pharynx.png");
 		averageDictionary.put("Nasal cavity", "assets/nasal_cavity.png");
 		averageDictionary.put("Trachea", "assets/trachea.png");
-		//averageDictionary.put("", "assets/");
+		averageDictionary.put("Ureter", "assets/ureter.png");
+		averageDictionary.put("Cervix", "assets/cervix.png");
+		averageDictionary.put("Ovarian ligament", "assets/ovarian_ligament.png");
+		averageDictionary.put("Endometrium", "assets/endometrium.png");
+		averageDictionary.put("Urethral opening", "assets/urethral_opening.png");
+		averageDictionary.put("Cervical canal", "assets/cervical_canal.png");
 		
 		difficultDictionary = new HashMap<>();
 		difficultDictionary.put("Tricuspid valve", "assets/tricuspid_valve.png");
@@ -84,8 +95,12 @@ public class AnatomyDetectiveDictionary {
 		difficultDictionary.put("Frontal sinus", "assets/frontal_sinus.png");
 		difficultDictionary.put("Nasal conchae", "assets/nasal_conchae.png");
 		difficultDictionary.put("Sphenoidal sinus", "assets/sphenoidal_sinus.png");
-		//difficultDictionary.put("", "assets/");
-		
+		difficultDictionary.put("Epididymis", "assets/epididymis.png");
+		difficultDictionary.put("Infundibulum", "assets/infundibulum.png");
+		difficultDictionary.put("Vena cava", "assets/vena_cava.png");
+		difficultDictionary.put("Seminal vesicle", "assets/seminal_vesicle.png");
+		difficultDictionary.put("Uterine fundus", "assets/uterine_fundus.png");
+		//difficultDictionary.put("", "assets/");		
 		
 		// Topics
 		
@@ -132,15 +147,14 @@ public class AnatomyDetectiveDictionary {
 		endocrine.put("Parathyroid glands", "assets/parathyroid_glands.png");
 		
 		excretory = new HashMap<>();
-		excretory.put("ey", "assets/eye.png");
-		excretory.put("a", "assets/eye.png");
-		excretory.put("b", "assets/eye.png");
-		excretory.put("c", "assets/eye.png");
-		excretory.put("d", "assets/eye.png");
-		excretory.put("e", "assets/eye.png");
-		excretory.put("f", "assets/eye.png");
-		excretory.put("g", "assets/eye.png");
-		excretory.put("h", "assets/eye.png");
+		excretory.put("Aorta", "assets/aorta2.png");
+		excretory.put("Bladder", "assets/bladder.png");
+		excretory.put("Kidney", "assets/kidney2.png");
+		excretory.put("Renal artery", "assets/renal_artery.png");
+		excretory.put("Renal vein", "assets/renal_vein.png");
+		excretory.put("Ureter", "assets/ureter.png");
+		excretory.put("Urethra", "assets/urethra.png");
+		excretory.put("Vena cava", "assets/vena_cava.png");
 		
 		immune = new HashMap<>();
 		immune.put("li", "assets/liver.png");
@@ -174,15 +188,27 @@ public class AnatomyDetectiveDictionary {
 		nervous.put("h", "assets/lung.png");
 		
 		reproductive = new HashMap<>();
-		reproductive.put("le", "assets/teeth.png");
-		reproductive.put("a", "assets/teeth.png");
-		reproductive.put("b", "assets/teeth.png");
-		reproductive.put("c", "assets/teeth.png");
-		reproductive.put("d", "assets/teeth.png");
-		reproductive.put("e", "assets/teeth.png");
-		reproductive.put("f", "assets/teeth.png");
-		reproductive.put("g", "assets/teeth.png");
-		reproductive.put("h", "assets/teeth.png");
+		reproductive.put("Cervix", "assets/cervix.png");
+		reproductive.put("Ovarian ligament", "assets/ovarian_ligament.png");
+		reproductive.put("Ovary", "assets/ovary.png");
+		reproductive.put("Vagina", "assets/vagina.png");
+		reproductive.put("Bladder", "assets/bladder_men.png");
+		reproductive.put("Cervical canal", "assets/cervical_canal.png");
+		reproductive.put("Endometrium", "assets/endometrium.png");
+		reproductive.put("Epididymis", "assets/epididymis.png");
+		reproductive.put("Fallopian tube", "assets/fallopian_tube.png");
+		reproductive.put("Foreskin", "assets/foreskin.png");
+		reproductive.put("Infundibulum", "assets/infundibulum.png");
+		reproductive.put("Myometrium", "assets/myometrium.png");
+		reproductive.put("Penis", "assets/penis.png");
+		reproductive.put("Prostate", "assets/prostate.png");
+		reproductive.put("Seminal vesicle", "assets/seminal_vesicle.png");
+		reproductive.put("Testicles", "assets/testicles.png");
+		reproductive.put("Urethra", "assets/urethra_men.png");
+		reproductive.put("Urethral opening", "assets/urethral_opening.png");
+		reproductive.put("Uterine fundus", "assets/uterine_fundus.png");
+		reproductive.put("Uterus", "assets/uterus.png");
+		
 		
 		respiratory = new HashMap<>(); //
 		respiratory.put("Alveoli", "assets/alveoli.png");
