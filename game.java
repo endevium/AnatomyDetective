@@ -13,7 +13,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 
 
 public class game {
@@ -22,12 +26,13 @@ public class game {
 	private static JProgressBar PBar;
     private static JFrame main_frame;
     private static JCheckBox musicCheckbox, effectCheckbox;
-    private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel, htpImageLabel, htpLabel, cardioImageLabel, cardioLabel, digestiveImageLabel, digestiveLabel, endocrineImageLabel, endocrineLabel, excretoryImageLabel, excretoryLabel, immuneImageLabel, immuneLabel, integumentaryImageLabel, integumentaryLabel, nervousImageLabel, nervousLabel, reproductiveImageLabel, reproductiveImageLabel2, reproductiveLabel, respiratoryImageLabel, respiratoryLabel, skeletalImageLabel, skeletalLabel;
+    private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel, htpImageLabel, htpLabel, cardioImageLabel, cardioLabel, digestiveImageLabel, digestiveLabel, endocrineImageLabel, endocrineLabel, excretoryImageLabel, excretoryLabel, immuneImageLabel, immuneLabel, integumentaryImageLabel, integumentaryLabel, nervousImageLabel, nervousLabel, reproductiveImageLabel, reproductiveImageLabel2, reproductiveLabel, respiratoryImageLabel, respiratoryLabel, skeletalImageLabel, skeletalLabel, coinLabel, coinImageLabel, addedCoinLabel, hintLabel;
     private static JTextField answerInputField;
-    private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, modelBtn, easyBtn, averageBtn, difficultBtn, continueBtn, settingsBtn, nervousBtn, skeletalBtn, excretoryBtn, reproductiveBtn, endocrineBtn, respiratoryBtn, integumentaryBtn, cardioBtn, digestiveBtn, immuneBtn, nextBtn, backBtn2;
+    private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, modelBtn, easyBtn, averageBtn, difficultBtn, continueBtn, settingsBtn, nervousBtn, skeletalBtn, excretoryBtn, reproductiveBtn, endocrineBtn, respiratoryBtn, integumentaryBtn, cardioBtn, digestiveBtn, immuneBtn, nextBtn, backBtn2, unused_hintBtn;
     private static String correctAnswer; 
-    private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htpBtn_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel, review_panel, settingsBtn_panel, settings_panel, nervous_panel, skeletal_panel, excretory_panel, reproductive_panel, endocrine_panel, respiratory_panel, integumentary_panel, cardiovascular_panel, digestive_panel, immune_panel, nextBtn_panel, backBtn_panel2;
-    private static int score, roundNum, maxRound;
+    private static JPanel main_panel, mode_panel, topic_panel, difficulty_panel, htpBtn_panel, htp_panel, game_panel, game_over_panel, back_panel, timer_panel, review_panel, settingsBtn_panel, settings_panel, nervous_panel, skeletal_panel, excretory_panel, reproductive_panel, endocrine_panel, respiratory_panel, integumentary_panel, cardiovascular_panel, digestive_panel, immune_panel, nextBtn_panel, backBtn_panel2, coin_panel, hintBtn_panel, hint_panel;
+    private static int score, roundNum, maxRound, addedCoins;
+    private static int coins;
     private static String difficulty, topic;
     private static boolean isReview;
     
@@ -51,15 +56,150 @@ public class game {
         difficulty = "";
         topic = "";
         score = 0;
+        addedCoins = 0;
         roundNum = 1;
         maxRound = 10;
         isReview = false;
+        
+        // Coin panel
+        coin_panel = new JPanel() {
+        	private static final long serialVersionUID = 1L;
+
+		@Override
+        	protected void paintComponent(Graphics g) {
+            	super.paintComponent(g);
+            	ImageIcon imageIcon = new ImageIcon("assets/coin_panel.png");
+            	Image image = imageIcon.getImage();
+            	g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        	}
+        };
+        coin_panel.setBackground(null);
+        coin_panel.setLayout(null);
+        coin_panel.setOpaque(false);
+        coin_panel.setBounds(837, 25, 147, 60);
+        container.add(coin_panel);
+        
+        coinLabel = new JLabel();
+        coinLabel.setForeground(Color.WHITE);
+        coinLabel.setFont(new Font("Bungee", Font.PLAIN, 23));
+        coinLabel.setBounds(70, 18, 80, 30);
+        coin_panel.add(coinLabel);
+        
+        
+        // Importing coins.txt
+        try {
+            File file = new File("assets/coins.txt");
+            if (!file.exists()) {
+                coins = 0;
+            } else {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line = reader.readLine();
+                reader.close();
+                coins = Integer.parseInt(line);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            coins = 0;
+        }
+
+        coinLabel.setText(Integer.toString(coins));
+        
+        
+        // Hint Button Panels
+        hintBtn_panel = new JPanel();
+        hintBtn_panel.setBackground(null);
+        hintBtn_panel.setOpaque(false);
+        hintBtn_panel.setVisible(false);
+        hintBtn_panel.setBounds(885, 100, 75, 75);
+        container.add(hintBtn_panel);
+        
+        unused_hintBtn = new JButton();
+        unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+        unused_hintBtn.setBackground(null);
+        unused_hintBtn.setBorder(null);
+        unused_hintBtn.setBorderPainted(false);
+        unused_hintBtn.setContentAreaFilled(false);
+        unused_hintBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        unused_hintBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {	
+            	if (coins >= 5) {
+            		coins -= 5;
+            		coinLabel.setText(Integer.toString(coins));
+            		unused_hintBtn.setIcon(new ImageIcon("assets/used_hint_button.png"));
+                	hintBtn_panel.setVisible(false);
+                	game_panel.setVisible(false);
+                	hint_panel.setVisible(true);
+                	timer_panel.setVisible(false);
+            		
+                	try {
+                		File file = new File("assets/coins.txt");
+                		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                		writer.write(Integer.toString(coins));
+                		writer.close();
+                	}
+                	catch (Exception ex) {
+                		ex.printStackTrace();
+                	}
+            		
+	            	if (effectCheckbox.isSelected()) {
+	            		try {
+	            			File audioFile = new File("assets/button_click.wav");
+	                    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+	                    	Clip clip = AudioSystem.getClip();
+	                    	clip.open(audioInputStream);
+	                    	clip.start();
+	                	} catch (Exception ex) {
+	                    	ex.printStackTrace();
+	                	}
+	            	}
+            	} 
+            	else {
+            		if (effectCheckbox.isSelected()) {
+	            		try {
+	            			File audioFile = new File("assets/wrong_answer.wav");
+	                    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+	                    	Clip clip = AudioSystem.getClip();
+	                    	clip.open(audioInputStream);
+	                    	clip.start();
+	                	} catch (Exception ex) {
+	                    	ex.printStackTrace();
+	                	}
+	            	}
+            	}
+            }
+        });
+        hintBtn_panel.add(unused_hintBtn);
+        
+        hint_panel = new JPanel() {
+        	private static final long serialVersionUID = 1L;
+
+			@Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon imageIcon = new ImageIcon("assets/hint_panel.png");
+                Image image = imageIcon.getImage();
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        hint_panel.setLayout(null);
+        hint_panel.setBackground(null);
+        hint_panel.setBounds(360, 250, 286, 299);
+        hint_panel.setVisible(false);
+        hint_panel.setOpaque(false);
+        container.add(hint_panel);
+        
+        hintLabel = new JLabel("<html>This part starts with the letter 'S'. It has 5 letters. </html>");
+        hintLabel.setFont(new Font("Bungee", Font.BOLD, 25));
+        hintLabel.setForeground(Color.WHITE);
+        hintLabel.setBounds(50, 30, 200, 250);
+        hint_panel.add(hintLabel);
         
         // Main menu panel
         main_panel = new JPanel(new GridBagLayout());
         main_panel.setBackground(null);
         main_panel.setOpaque(false);
-        main_panel.setBounds(250, 130, 500, 400);
+        main_panel.setBounds(250, 150, 500, 400);
         container.add(main_panel);
         
         gameLogoLabel = new JLabel();
@@ -67,8 +207,10 @@ public class game {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 20, 0);
+        gbc.insets = new Insets(0, 0, 30, 0);
         main_panel.add(gameLogoLabel, gbc);
+        
+        coin_panel = new JPanel();
         
         playBtn = new JButton();
         playBtn.setIcon(new ImageIcon("assets/play_button.png"));
@@ -400,6 +542,7 @@ public class game {
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
+            	hintBtn_panel.setVisible(true);
             	
             	if (effectCheckbox.isSelected()) {
             		try {
@@ -445,6 +588,7 @@ public class game {
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
+            	hintBtn_panel.setVisible(true);
             	
             	if (effectCheckbox.isSelected()) {
             		try {
@@ -490,6 +634,7 @@ public class game {
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
             	timer_panel.setVisible(true);
+            	hintBtn_panel.setVisible(true);
             	
             	if (effectCheckbox.isSelected()) {
             		try {
@@ -987,6 +1132,13 @@ public class game {
         backBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         backBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	if (hint_panel.isVisible() == false) {
+	            	Timer timer = (Timer) timer_panel.getClientProperty("timer");
+	                if (timer != null && timer.isRunning()) {
+	                    timer.stop();
+	                }
+            	}
+                
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -999,8 +1151,11 @@ public class game {
                 	}
             	}
             	
+            	
+            	
             	score = 0;
             	roundNum = 1;
+            	skipBtn.setVisible(true);
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
@@ -1011,6 +1166,13 @@ public class game {
             		main_panel.setVisible(true);
             		settingsBtn_panel.setVisible(true);
             		htpBtn_panel.setVisible(true);
+            	}
+            	else if (hint_panel.isVisible()) {
+            		hint_panel.setVisible(false);
+            		timer_panel.setVisible(true);
+            		hintBtn_panel.setVisible(true);
+            		unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+            		game_panel.setVisible(true);
             	}
             	else if (htp_panel.isVisible()) {
             		htp_panel.setVisible(false);
@@ -1039,7 +1201,7 @@ public class game {
             		game_panel.setVisible(false);
             		timer_panel.setVisible(false);
             		topic_panel.setVisible(true);
-            		skipBtn.setVisible(true);
+            		
             		isReview = false;
             		maxRound = 10;
             		usedParts.clear();
@@ -1049,6 +1211,7 @@ public class game {
             		game_panel.setVisible(false);
             		timer_panel.setVisible(false);
             		difficulty_panel.setVisible(true);
+            		hintBtn_panel.setVisible(false);
             		usedParts.clear();
             		back_panel.setBounds(14, 15, 75, 75);
             	}
@@ -1777,6 +1940,7 @@ public class game {
                     back_panel.setVisible(false);
                     game_panel.setVisible(false);
                     timer_panel.setVisible(false);
+                    hintBtn_panel.setVisible(false);
                     game_over_panel.setVisible(true);
                 }
             }
@@ -1809,8 +1973,19 @@ public class game {
         totalLabel = new JLabel("Score: " + score);
         totalLabel.setFont(new Font("Bungee", Font.BOLD, 25));
         totalLabel.setForeground(Color.WHITE);
-        totalLabel.setBounds(50, -20, 200, 250);
+        totalLabel.setBounds(50, -50, 200, 250);
         game_over_panel.add(totalLabel);
+        
+        coinImageLabel = new JLabel();
+        coinImageLabel.setIcon(new ImageIcon("assets/coin.png"));
+        coinImageLabel.setBounds(60, 90, 60, 60);
+        game_over_panel.add(coinImageLabel);
+        
+        addedCoinLabel = new JLabel("+0");
+        addedCoinLabel.setFont(new Font("Bungee", Font.BOLD, 25));
+        addedCoinLabel.setForeground(Color.WHITE);
+        addedCoinLabel.setBounds(120, 90, 200, 60);
+        game_over_panel.add(addedCoinLabel);
 
         tryAgainBtn = new JButton();
         tryAgainBtn.setIcon(new ImageIcon("assets/try_again_button.png"));
@@ -1822,6 +1997,8 @@ public class game {
         tryAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
+            	
+                
             	try {
             		File audioFile = new File("assets/button_click.wav");
                     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
@@ -1843,8 +2020,15 @@ public class game {
             		timer_panel.setVisible(true);		
             	}
                 game_over_panel.setVisible(false);
+                
                 score = 0;
+                hintBtn_panel.setVisible(true);
                 roundNum = 1;
+                addedCoins = 0;
+            	addedCoinLabel.setText("+" + addedCoins);
+                game_over_panel.revalidate();
+                game_over_panel.repaint();
+                
                 scoreLabel.setText(Integer.toString(score));
                 roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
                 usedParts.clear();
@@ -1934,15 +2118,21 @@ public class game {
                     clip.start();
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                }
-            	
+                }      	
+
                 back_panel.setVisible(false);
                 game_over_panel.setVisible(false);
                 timer_panel.setVisible(false);
+                hintBtn_panel.setVisible(false);
                 settingsBtn_panel.setVisible(true);
                 htpBtn_panel.setVisible(true);
                 skipBtn.setVisible(true); 
                 back_panel.setBounds(14, 15, 75, 75);
+                
+                addedCoins = 0;
+            	addedCoinLabel.setText("+" + addedCoins);
+                game_over_panel.revalidate();
+                game_over_panel.repaint();
                 
                 score = 0;
                 roundNum = 1;
@@ -2017,10 +2207,21 @@ public class game {
         gbcImage2.gridy = 2;
         review_panel.add(partNameLabel, gbcImage2);
         
+        char firstLetter = partName.charAt(0);
+        int lettersNum = 0;
+        for (int i = 0; i < partName.length(); i++) {
+            if (partName.charAt(i) != ' ') {
+                lettersNum++;
+            }
+        }
+        hintLabel.setText("<html>This part starts with the letter '" + firstLetter + "'. It has " + lettersNum + " letters. </html>");
+        
         game_panel.revalidate();
         game_panel.repaint();
         review_panel.revalidate();
         review_panel.repaint();
+        hint_panel.revalidate();
+        hint_panel.repaint();
     }
 
     static ImageIcon createResizedImageIcon(String path, int width, int height) {
@@ -2130,6 +2331,9 @@ public class game {
             	}
             }
         } else if (roundNum == 10) {
+        	addedCoinLabel.setText("+" + addedCoins);
+            game_over_panel.revalidate();
+            game_over_panel.repaint();
             PBar.setValue(0);
             roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
             answerInputField.setText("");
@@ -2137,6 +2341,7 @@ public class game {
             game_panel.setVisible(false);
             timer_panel.setVisible(false);
             game_over_panel.setVisible(true);
+            hintBtn_panel.setVisible(false);
         }
     }
 
@@ -2144,15 +2349,62 @@ public class game {
         String userAnswer = answerInputField.getText();
         
         if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum == maxRound) {
-        	try {
-        		File audioFile = new File("assets/correct_answer.wav");
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.start();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        	if (difficulty.equals("easy")) {
+            	coins += 1;
+            	coinLabel.setText(Integer.toString(coins));
+            	addedCoins += 1;
+                addedCoinLabel.setText("+" + addedCoins);
+                game_over_panel.revalidate();
+                game_over_panel.repaint();
+                hintBtn_panel.setVisible(false);
+            	
+            	try {
+            		File file = new File("assets/coins.txt");
+            		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            		writer.write(Integer.toString(coins));
+            		writer.close();
+            	}
+            	catch (Exception ex) {
+            		ex.printStackTrace();
+            	}
             }
+            else if (difficulty.equals("average")) {
+            	coins += 2;
+            	coinLabel.setText(Integer.toString(coins));
+            	addedCoins += 2;
+                addedCoinLabel.setText("+" + addedCoins);
+                game_over_panel.revalidate();
+                game_over_panel.repaint();
+            	
+            	try {
+            		File file = new File("assets/coins.txt");
+            		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            		writer.write(Integer.toString(coins));
+            		writer.close();
+            	}
+            	catch (Exception ex) {
+            		ex.printStackTrace();
+            	}
+            }
+            else if (difficulty.equals("difficult")) {
+            	coins += 3;
+            	coinLabel.setText(Integer.toString(coins));
+            	addedCoins += 3;
+                addedCoinLabel.setText("+" + addedCoins);
+                game_over_panel.revalidate();
+                game_over_panel.repaint();
+            	
+            	try {
+            		File file = new File("assets/coins.txt");
+            		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            		writer.write(Integer.toString(coins));
+            		writer.close();
+            	}
+            	catch (Exception ex) {
+            		ex.printStackTrace();
+            	}
+            }
+            
         	
             score += 0;
             int count = PBar.getValue();
@@ -2175,9 +2427,11 @@ public class game {
             	totalLabel.setText("Score: " + Integer.toString(score)); 
             }
             else {
-            	totalLabel.setText("<html> You have completed the review! <html>"); 
-            	totalLabel.setBounds(30, -20, 200, 250);
+            	totalLabel.setText("<html>Review Complete!</html>"); 
             }
+            
+            
+            
             back_panel.setVisible(false);
             game_panel.setVisible(false);
             timer_panel.setVisible(false);
@@ -2205,6 +2459,61 @@ public class game {
             else {
             	fill();
                 score += 0;
+                
+                if (difficulty.equals("easy")) {
+                	coins += 1;
+                	coinLabel.setText(Integer.toString(coins));
+                	addedCoins += 1;
+                    addedCoinLabel.setText("+" + addedCoins);
+                    game_over_panel.revalidate();
+                    game_over_panel.repaint();
+                	
+                	try {
+                		File file = new File("assets/coins.txt");
+                		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                		writer.write(Integer.toString(coins));
+                		writer.close();
+                	}
+                	catch (Exception ex) {
+                		ex.printStackTrace();
+                	}
+                }
+                else if (difficulty.equals("average")) {
+                	coins += 2;
+                	coinLabel.setText(Integer.toString(coins));
+                	addedCoins += 2;
+                    addedCoinLabel.setText("+" + addedCoins);
+                    game_over_panel.revalidate();
+                    game_over_panel.repaint();
+                	
+                	try {
+                		File file = new File("assets/coins.txt");
+                		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                		writer.write(Integer.toString(coins));
+                		writer.close();
+                	}
+                	catch (Exception ex) {
+                		ex.printStackTrace();
+                	}
+                }
+                else if (difficulty.equals("difficult")) {
+                	coins += 3;
+                	coinLabel.setText(Integer.toString(coins));
+                	addedCoins += 3;
+                    addedCoinLabel.setText("+" + addedCoins);
+                    game_over_panel.revalidate();
+                    game_over_panel.repaint();
+                	
+                	try {
+                		File file = new File("assets/coins.txt");
+                		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                		writer.write(Integer.toString(coins));
+                		writer.close();
+                	}
+                	catch (Exception ex) {
+                		ex.printStackTrace();
+                	}
+                }
                 
                 if (count >= 1 && count <= 20) {
                 	score += 100;
