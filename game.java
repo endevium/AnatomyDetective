@@ -22,6 +22,10 @@ import java.io.FileWriter;
 
 public class game {
 	
+	private static Clip main_clip;
+	private static Clip timer_clip;
+	private static Clip review_clip;
+	
 	private static Set<String> usedParts = new HashSet<>();
 	private static JProgressBar PBar;
     private static JFrame main_frame;
@@ -61,6 +65,8 @@ public class game {
         isReview = false;
         usedHint = false;
         
+        
+        
         // Coin panel
         coin_panel = new JPanel() {
         	private static final long serialVersionUID = 1L;
@@ -76,7 +82,7 @@ public class game {
         coin_panel.setBackground(null);
         coin_panel.setLayout(null);
         coin_panel.setOpaque(false);
-        coin_panel.setBounds(837, 25, 147, 60);
+        coin_panel.setBounds(837, 35, 147, 60);
         container.add(coin_panel);
         
         coinLabel = new JLabel();
@@ -110,7 +116,7 @@ public class game {
         hintBtn_panel.setBackground(null);
         hintBtn_panel.setOpaque(false);
         hintBtn_panel.setVisible(false);
-        hintBtn_panel.setBounds(885, 100, 75, 75);
+        hintBtn_panel.setBounds(885, 110, 75, 75);
         container.add(hintBtn_panel);
         
         unused_hintBtn = new JButton();
@@ -387,6 +393,20 @@ public class game {
         musicCheckbox.setBackground(null);
         musicCheckbox.setBorderPainted(false);
         musicCheckbox.setContentAreaFilled(false);
+        musicCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                    }
+                } else {
+                    if (main_clip != null && !main_clip.isRunning()) {
+                        main_clip.start();
+                    }
+                }
+            }
+        });
         musicCheckbox.setForeground(new Color(4,37,100));
         musicCheckbox.setBounds(25, 70, 200, 50);
         settings_panel.add(musicCheckbox);
@@ -547,6 +567,22 @@ public class game {
             	timer_panel.setVisible(true);
             	hintBtn_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/timer_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
+            	
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -593,6 +629,21 @@ public class game {
             	timer_panel.setVisible(true);
             	hintBtn_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/timer_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -639,6 +690,21 @@ public class game {
             	timer_panel.setVisible(true);
             	hintBtn_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/timer_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -700,6 +766,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -747,6 +827,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -792,6 +886,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -832,6 +940,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -877,6 +999,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -922,6 +1058,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -967,6 +1117,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -1012,6 +1176,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -1057,6 +1235,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -1102,6 +1294,20 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
+            	if (musicCheckbox.isSelected()) {
+                    if (main_clip != null && main_clip.isRunning()) {
+                        main_clip.stop();
+                        try {
+                			File audioFile = new File("assets/review_music.wav");
+                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                        	timer_clip = AudioSystem.getClip();
+                        	timer_clip.open(audioInputStream);
+                        	timer_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
             	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
@@ -1153,16 +1359,7 @@ public class game {
                     	ex.printStackTrace();
                 	}
             	}
-            	
-            	
-            	
-            	score = 0;
-            	roundNum = 1;
-            	skipBtn.setVisible(true);
-            	scoreLabel.setText(Integer.toString(score));
-            	totalLabel.setText("Score: " + Integer.toString(score));
-        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-                
+
         		if (game_panel.isVisible() == true && usedHint == true) {
         			unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
                     hintBtn_panel.revalidate();
@@ -1205,6 +1402,15 @@ public class game {
             		topic_panel.setVisible(true);
             		isReview = false;
             		usedParts.clear();
+            		
+            		if (musicCheckbox.isSelected()) {
+                        if (timer_clip != null && timer_clip.isRunning()) {
+                        	timer_clip.stop();
+                        	if (main_clip != null && !main_clip.isRunning()) {
+                                main_clip.start();
+                            }
+                        }
+                    }
             	}
             	else if (game_panel.isVisible() && isReview == true) {
             		game_panel.setVisible(false);
@@ -1215,6 +1421,15 @@ public class game {
             		maxRound = 10;
             		usedParts.clear();
             		back_panel.setBounds(14, 15, 75, 75);
+            		
+            		if (musicCheckbox.isSelected()) {
+                        if (timer_clip != null && timer_clip.isRunning()) {
+                        	timer_clip.stop();
+                        	if (main_clip != null && !main_clip.isRunning()) {
+                                main_clip.start();
+                            }
+                        }
+                    }
             	}
             	else if (game_panel.isVisible()) {
             		game_panel.setVisible(false);
@@ -1223,6 +1438,15 @@ public class game {
             		hintBtn_panel.setVisible(false);
             		usedParts.clear();
             		back_panel.setBounds(14, 15, 75, 75);
+            		
+            		if (musicCheckbox.isSelected()) {
+                        if (timer_clip != null && timer_clip.isRunning()) {
+                        	timer_clip.stop();
+                        	if (main_clip != null && !main_clip.isRunning()) {
+                                main_clip.start();
+                            }
+                        }
+                    }
             	}
             	else if (settings_panel.isVisible()) {
             		main_panel.setVisible(true);
@@ -1780,8 +2004,8 @@ public class game {
         PBar = new JProgressBar();
         PBar.setValue(0);
         PBar.setPreferredSize(new Dimension(1040, 25));
-        PBar.setForeground(Color.GRAY);
-        PBar.setBackground(Color.white);
+        PBar.setForeground(new Color(4,37,100));
+        PBar.setBackground(new Color(8,96,146));
         PBar.setBorder(null);
         timer_panel.add(PBar);
         
@@ -1880,9 +2104,11 @@ public class game {
                     		case "average":
                     			Map<String, String> averageDictionary = dictionary.getAverageDictionary();
                     			generatePart(averageDictionary);
+                    			break;
                     		case "difficult":
                     			Map<String, String> difficultDictionary = dictionary.getDifficultDictionary();
                     			generatePart(difficultDictionary);
+                    			break;
                     	}
                     }
                     else {
@@ -2065,9 +2291,11 @@ public class game {
                 		case "average":
                 			Map<String, String> averageDictionary = dictionary.getAverageDictionary();
                 			generatePart(averageDictionary);
+                			break;
                 		case "difficult":
                 			Map<String, String> difficultDictionary = dictionary.getDifficultDictionary();
                 			generatePart(difficultDictionary);
+                			break;
                 	}
                 }
                 else {
@@ -2172,6 +2400,20 @@ public class game {
         game_over_panel.add(menuBtn);
 
         main_frame.setVisible(true);
+        
+        if (musicCheckbox.isSelected()) {
+            try {
+                File audioFile = new File("assets/ad_music.wav");
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                main_clip = AudioSystem.getClip();
+                main_clip.open(audioInputStream);
+                main_clip.start();
+                
+                main_clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         
     }    
 
@@ -2285,6 +2527,18 @@ public class game {
         if (timer != null && timer.isRunning()) {
             timer.stop();
         }   
+        
+        if (effectCheckbox.isSelected()) {
+    		try {
+    			File audioFile = new File("assets/wrong_answer.wav");
+            	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+            	Clip clip = AudioSystem.getClip();
+            	clip.open(audioInputStream);
+            	clip.start();
+        	} catch (Exception ex) {
+            	ex.printStackTrace();
+        	}
+    	}
     
         if (roundNum < 10) {
             fill();
@@ -2303,9 +2557,11 @@ public class game {
             		case "average":
             			Map<String, String> averageDictionary = dictionary.getAverageDictionary();
             			generatePart(averageDictionary);
+            			break;
             		case "difficult":
             			Map<String, String> difficultDictionary = dictionary.getDifficultDictionary();
             			generatePart(difficultDictionary);
+            			break;
             	}
             }
             else {
