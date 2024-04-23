@@ -34,7 +34,7 @@ public class game {
     private static int score, roundNum, maxRound, addedCoins;
     private static int coins;
     private static String difficulty, topic;
-    private static boolean isReview;
+    private static boolean isReview, usedHint;
     
     public static void main(String[] args) {
         main_frame = new JFrame("Anatomy Detective");
@@ -60,6 +60,7 @@ public class game {
         roundNum = 1;
         maxRound = 10;
         isReview = false;
+        usedHint = false;
         
         // Coin panel
         coin_panel = new JPanel() {
@@ -124,13 +125,16 @@ public class game {
             @Override
             public void actionPerformed(ActionEvent e) {	
             	if (coins >= 5) {
-            		coins -= 5;
+            		if (!usedHint) {
+            			coins -= 5;
+            		}
             		coinLabel.setText(Integer.toString(coins));
             		unused_hintBtn.setIcon(new ImageIcon("assets/used_hint_button.png"));
                 	hintBtn_panel.setVisible(false);
                 	game_panel.setVisible(false);
                 	hint_panel.setVisible(true);
                 	timer_panel.setVisible(false);
+                	usedHint = true;
             		
                 	try {
                 		File file = new File("assets/coins.txt");
@@ -1160,6 +1164,13 @@ public class game {
             	totalLabel.setText("Score: " + Integer.toString(score));
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
                 
+        		if (game_panel.isVisible() == true && usedHint == true) {
+        			unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+                    hintBtn_panel.revalidate();
+                    hintBtn_panel.repaint();
+                    usedHint = false;
+        		}
+        		
             	if (mode_panel.isVisible()) {
             		mode_panel.setVisible(false);
             		back_panel.setVisible(false);
@@ -1171,7 +1182,6 @@ public class game {
             		hint_panel.setVisible(false);
             		timer_panel.setVisible(true);
             		hintBtn_panel.setVisible(true);
-            		unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
             		game_panel.setVisible(true);
             	}
             	else if (htp_panel.isVisible()) {
@@ -1840,6 +1850,11 @@ public class game {
                 	}
             	}
             	
+            	unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+                hintBtn_panel.revalidate();
+                hintBtn_panel.repaint();
+                usedHint = false;
+            	
                 if (roundNum < maxRound) {
                 	if (isReview == true) {
                 		review_panel.setVisible(true);
@@ -2021,6 +2036,11 @@ public class game {
             	}
                 game_over_panel.setVisible(false);
                 
+                unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+                hintBtn_panel.revalidate();
+                hintBtn_panel.repaint();
+                usedHint = false;
+                
                 score = 0;
                 hintBtn_panel.setVisible(true);
                 roundNum = 1;
@@ -2142,6 +2162,10 @@ public class game {
                 main_panel.setVisible(true);
                 
                 if (isReview == true) {
+                	isReview = false;
+                }
+                
+                if (usedHint == true) {
                 	isReview = false;
                 }
             }
@@ -2285,7 +2309,6 @@ public class game {
             			generatePart(difficultDictionary);
             	}
             }
-            
             else {
             	switch (topic) {
 	            	case "cardiovascular":
@@ -2330,6 +2353,11 @@ public class game {
 	                    break;
             	}
             }
+            
+            unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+            hintBtn_panel.revalidate();
+            hintBtn_panel.repaint();
+            usedHint = false;
         } else if (roundNum == 10) {
         	addedCoinLabel.setText("+" + addedCoins);
             game_over_panel.revalidate();
@@ -2342,6 +2370,11 @@ public class game {
             timer_panel.setVisible(false);
             game_over_panel.setVisible(true);
             hintBtn_panel.setVisible(false);
+            
+            unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+            hintBtn_panel.revalidate();
+            hintBtn_panel.repaint();
+            usedHint = false;
         }
     }
 
@@ -2357,6 +2390,10 @@ public class game {
                 game_over_panel.revalidate();
                 game_over_panel.repaint();
                 hintBtn_panel.setVisible(false);
+                unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+                hintBtn_panel.revalidate();
+                hintBtn_panel.repaint();
+                usedHint = false;
             	
             	try {
             		File file = new File("assets/coins.txt");
@@ -2375,6 +2412,10 @@ public class game {
                 addedCoinLabel.setText("+" + addedCoins);
                 game_over_panel.revalidate();
                 game_over_panel.repaint();
+                unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+                hintBtn_panel.revalidate();
+                hintBtn_panel.repaint();
+                usedHint = false;
             	
             	try {
             		File file = new File("assets/coins.txt");
@@ -2393,6 +2434,10 @@ public class game {
                 addedCoinLabel.setText("+" + addedCoins);
                 game_over_panel.revalidate();
                 game_over_panel.repaint();
+                unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+                hintBtn_panel.revalidate();
+                hintBtn_panel.repaint();
+                usedHint = false;
             	
             	try {
             		File file = new File("assets/coins.txt");
@@ -2447,6 +2492,11 @@ public class game {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        	
+        	unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
+            hintBtn_panel.revalidate();
+            hintBtn_panel.repaint();
+            usedHint = false;
         	
             roundNum += 1;
             int count = PBar.getValue();
