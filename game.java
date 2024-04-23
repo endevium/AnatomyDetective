@@ -48,7 +48,6 @@ public class game {
             main_frame.setContentPane(bgLabel);
         } catch (Exception ex) {
             ex.printStackTrace();
-            // Handle image loading error
         }
 
         Container container = main_frame.getContentPane();
@@ -2412,6 +2411,7 @@ public class game {
                 addedCoinLabel.setText("+" + addedCoins);
                 game_over_panel.revalidate();
                 game_over_panel.repaint();
+                hintBtn_panel.setVisible(false);
                 unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
                 hintBtn_panel.revalidate();
                 hintBtn_panel.repaint();
@@ -2434,6 +2434,7 @@ public class game {
                 addedCoinLabel.setText("+" + addedCoins);
                 game_over_panel.revalidate();
                 game_over_panel.repaint();
+                hintBtn_panel.setVisible(false);
                 unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
                 hintBtn_panel.revalidate();
                 hintBtn_panel.repaint();
@@ -2596,9 +2597,11 @@ public class game {
             		case "average":
             			Map<String, String> averageDictionary = dictionary.getAverageDictionary();
             			generatePart(averageDictionary);
+            			break;
             		case "difficult":
             			Map<String, String> difficultDictionary = dictionary.getDifficultDictionary();
             			generatePart(difficultDictionary);
+            			break;
             	}
             }
             else {
