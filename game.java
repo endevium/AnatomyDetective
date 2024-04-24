@@ -5,7 +5,10 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -30,8 +33,7 @@ public class game {
 	private static JProgressBar PBar;
     private static JFrame main_frame;
     private static JSlider musicSlider, effectSlider;
-    private static JCheckBox musicCheckbox, effectCheckbox;
-    private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel, htpImageLabel, htpLabel, cardioImageLabel, cardioLabel, digestiveImageLabel, digestiveLabel, endocrineImageLabel, endocrineLabel, excretoryImageLabel, excretoryLabel, immuneImageLabel, immuneLabel, integumentaryImageLabel, integumentaryLabel, nervousImageLabel, nervousLabel, reproductiveImageLabel, reproductiveImageLabel2, reproductiveLabel, respiratoryImageLabel, respiratoryLabel, skeletalImageLabel, skeletalLabel, coinLabel, coinImageLabel, addedCoinLabel, hintLabel;
+    private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel, htpImageLabel, htpLabel, cardioImageLabel, cardioLabel, digestiveImageLabel, digestiveLabel, endocrineImageLabel, endocrineLabel, excretoryImageLabel, excretoryLabel, immuneImageLabel, immuneLabel, integumentaryImageLabel, integumentaryLabel, nervousImageLabel, nervousLabel, reproductiveImageLabel, reproductiveImageLabel2, reproductiveLabel, respiratoryImageLabel, respiratoryLabel, skeletalImageLabel, skeletalLabel, coinLabel, coinImageLabel, addedCoinLabel, hintLabel, musicLabel, effectLabel;
     private static JTextField answerInputField;
     private static JButton playBtn, submitBtn, skipBtn, tryAgainBtn, menuBtn, backBtn, casualBtn, reviewBtn, htpBtn, modelBtn, easyBtn, averageBtn, difficultBtn, continueBtn, settingsBtn, nervousBtn, skeletalBtn, excretoryBtn, reproductiveBtn, endocrineBtn, respiratoryBtn, integumentaryBtn, cardioBtn, digestiveBtn, immuneBtn, nextBtn, backBtn2, unused_hintBtn;
     private static String correctAnswer; 
@@ -81,7 +83,7 @@ public class game {
         coin_panel.setBackground(null);
         coin_panel.setLayout(null);
         coin_panel.setOpaque(false);
-        coin_panel.setBounds(837, 35, 147, 60);
+        coin_panel.setBounds(837, 45, 147, 60);
         container.add(coin_panel);
         
         coinLabel = new JLabel();
@@ -89,7 +91,6 @@ public class game {
         coinLabel.setFont(new Font("Bungee", Font.PLAIN, 23));
         coinLabel.setBounds(70, 18, 80, 30);
         coin_panel.add(coinLabel);
-        
         
         // Importing coins.txt
         try {
@@ -115,7 +116,7 @@ public class game {
         hintBtn_panel.setBackground(null);
         hintBtn_panel.setOpaque(false);
         hintBtn_panel.setVisible(false);
-        hintBtn_panel.setBounds(885, 110, 75, 75);
+        hintBtn_panel.setBounds(885, 120, 75, 75);
         container.add(hintBtn_panel);
         
         unused_hintBtn = new JButton();
@@ -150,30 +151,39 @@ public class game {
                 		ex.printStackTrace();
                 	}
             		
-	            	if (effectCheckbox.isSelected()) {
-	            		try {
-	            			File audioFile = new File("assets/button_click.wav");
-	                    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
-	                    	Clip clip = AudioSystem.getClip();
-	                    	clip.open(audioInputStream);
-	                    	clip.start();
-	                	} catch (Exception ex) {
-	                    	ex.printStackTrace();
-	                	}
-	            	}
+
+	            	try {
+	            		File audioFile = new File("assets/button_click.wav");
+	                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+	                    Clip clip = AudioSystem.getClip();
+	                    clip.open(audioInputStream);
+	                    clip.start();
+	                    	
+	                    float volume = (float) effectSlider.getValue() / 100.0f;
+
+	                    FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+	                    gainControl.setValue(20f * (float) Math.log10(volume));
+	                } catch (Exception ex) {
+	                    ex.printStackTrace();
+	                }
+	            	
             	} 
             	else {
-            		if (effectCheckbox.isSelected()) {
+
 	            		try {
 	            			File audioFile = new File("assets/wrong_answer.wav");
 	                    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
 	                    	Clip clip = AudioSystem.getClip();
 	                    	clip.open(audioInputStream);
 	                    	clip.start();
+	                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+	                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+	                        gainControl.setValue(20f * (float) Math.log10(volume));
 	                	} catch (Exception ex) {
 	                    	ex.printStackTrace();
 	                	}
-	            	}
+	            	
             	}
             }
         });
@@ -220,6 +230,12 @@ public class game {
         
         coin_panel = new JPanel();
         
+        /* 
+         Resizing buttons
+         ImageIcon buttonImage = createResizedImageIcon("assets/play_button.png", 400, 400);
+         playBtn.setIcon(buttonImage);
+        */
+        
         playBtn = new JButton();
         playBtn.setIcon(new ImageIcon("assets/play_button.png"));
         playBtn.setBackground(null);
@@ -238,17 +254,21 @@ public class game {
             	htpBtn_panel.setVisible(false);
             	back_panel.setVisible(true);
             	         	
-            	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+
             	
             	AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
                 Map<String, String> easyDictionary = dictionary.getEasyDictionary();
@@ -274,17 +294,21 @@ public class game {
                 settingsBtn_panel.setVisible(false);
                 htpBtn_panel.setVisible(false);
             	
-            	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc.gridx = 0;
@@ -314,17 +338,20 @@ public class game {
             	settingsBtn_panel.setVisible(false);
             	htpBtn_panel.setVisible(false);
             	
-            	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
             }
         });
         htpBtn_panel.add(htpBtn);
@@ -352,17 +379,20 @@ public class game {
             		settingsBtn_panel.setVisible(false);
             		htpBtn_panel.setVisible(false);
             	
-            	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
             }
         });
         settingsBtn_panel.add(settingsBtn);
@@ -389,41 +419,42 @@ public class game {
         settings_panel.setOpaque(false);
         container.add(settings_panel);
         
-        musicCheckbox = new JCheckBox(" Music", true);
-        musicCheckbox.setFont(new Font("Bungee", Font.PLAIN, 16));
-        musicCheckbox.setIcon(new ImageIcon("assets/checkbox.png"));
-        musicCheckbox.setSelectedIcon(new ImageIcon("assets/selected_checkbox.png"));
-        musicCheckbox.setBackground(null);
-        musicCheckbox.setBorderPainted(false);
-        musicCheckbox.setContentAreaFilled(false);
-        musicCheckbox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!musicCheckbox.isSelected()) {
-                    if (main_clip != null && main_clip.isRunning()) {
-                        main_clip.stop();
-                    }
-                } else {
-                    if (main_clip != null && !main_clip.isRunning()) {
-                        main_clip.start();
-                    }
+        musicSlider = new JSlider(0, 100, 100);
+        musicSlider.setBackground(new Color(90, 155, 231));
+        musicSlider.setBounds(15, 100, 200, 30);
+        musicSlider.addChangeListener(new ChangeListener() {
+        @Override
+			public void stateChanged(ChangeEvent e) {
+				float volume = (float) musicSlider.getValue() / 100.0f;
+                if (main_clip != null) {
+                    FloatControl gainControl = (FloatControl) main_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                    gainControl.setValue(20f * (float) Math.log10(volume));
                 }
-            }
+			}
         });
-        musicCheckbox.setForeground(new Color(4,37,100));
-        musicCheckbox.setBounds(25, 70, 200, 50);
-        settings_panel.add(musicCheckbox);
+        settings_panel.add(musicSlider);
         
-        effectCheckbox = new JCheckBox(" Sound Effects", true);
-        effectCheckbox.setFont(new Font("Bungee", Font.PLAIN, 16));
-        effectCheckbox.setIcon(new ImageIcon("assets/checkbox.png"));
-        effectCheckbox.setSelectedIcon(new ImageIcon("assets/selected_checkbox.png"));
-        effectCheckbox.setBackground(null);
-        effectCheckbox.setBorderPainted(false);
-        effectCheckbox.setContentAreaFilled(false);
-        effectCheckbox.setForeground(new Color(4,37,100));
-        effectCheckbox.setBounds(25, 120, 250, 50);
-        settings_panel.add(effectCheckbox);
+        musicLabel = new JLabel("Music");
+        musicLabel.setFont(new Font("Bungee", Font.PLAIN, 16));
+        musicLabel.setBackground(null);
+        musicLabel.setForeground(new Color(4,37,100));
+        musicLabel.setBounds(25, 70, 200, 50);
+        settings_panel.add(musicLabel);
+        
+        effectSlider = new JSlider(0, 100, 100);
+        effectSlider.setBackground(new Color(90, 155, 231));
+        effectSlider.setMajorTickSpacing(100);
+        effectSlider.setBounds(15, 150, 200, 30);
+        settings_panel.add(effectSlider);
+        
+        effectLabel = new JLabel("Sound Effects");
+        effectLabel.setFont(new Font("Bungee", Font.PLAIN, 16));
+        effectLabel.setBackground(null);
+        effectLabel.setForeground(new Color(4,37,100));
+        effectLabel.setBounds(25, 120, 250, 50);
+        settings_panel.add(effectLabel);
+        
+        
         
         // How to Play panel
         htp_panel = new JPanel(new GridBagLayout());
@@ -442,9 +473,9 @@ public class game {
         htp_panel.add(htpImageLabel, gbc8);
         
         htpLabel = new JLabel("<html>Welcome to Anatomy Detective. In this game, you will be guessing different parts of the body. Click ‘Play’ to choose a gamemode. Click ‘Casual’ to play the guessing game, which will let you pick a difficulty. You can also review different systems of the body by clicking ‘Review’. </html>");
-        htpLabel.setForeground(new Color(4,37,100));
+        htpLabel.setForeground(Color.WHITE);
         htpLabel.setPreferredSize(new Dimension(800, 220));
-        htpLabel.setFont(new Font("Bungee", Font.PLAIN, 23));
+        htpLabel.setFont(new Font("Bungee", Font.PLAIN, 26));
         gbc8.gridx = 0;
         gbc8.gridy = 1;
         htp_panel.add(htpLabel, gbc8);
@@ -478,17 +509,21 @@ public class game {
             	mode_panel.setVisible(false);
                 difficulty_panel.setVisible(true);  
                 
-                if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+
             }
         });
         gbc4.gridx = 0;
@@ -508,17 +543,20 @@ public class game {
                 topic_panel.setVisible(true);
                 mode_panel.setVisible(false);
                 
-                if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
             }
         });
         gbc4.gridx = 0;
@@ -569,7 +607,6 @@ public class game {
             	timer_panel.setVisible(true);
             	hintBtn_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -579,23 +616,31 @@ public class game {
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
                         	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
+                
             	
-            	if (effectCheckbox.isSelected()) {
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc5.gridx = 0;
@@ -630,7 +675,6 @@ public class game {
             	timer_panel.setVisible(true);
             	hintBtn_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -640,22 +684,30 @@ public class game {
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
                         	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
-            	if (effectCheckbox.isSelected()) {
+        
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc5.gridx = 0;
@@ -690,7 +742,6 @@ public class game {
             	timer_panel.setVisible(true);
             	hintBtn_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -700,22 +751,30 @@ public class game {
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
                         	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc5.gridx = 0;
@@ -765,7 +824,6 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -774,22 +832,30 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
             }
         });
         gbc6.gridx = 0;
@@ -825,7 +891,6 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -834,22 +899,31 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
-            	if (effectCheckbox.isSelected()) {
+                    
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc6.gridx = 1;
@@ -883,7 +957,6 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -892,22 +965,31 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc6.gridx = 2;
@@ -937,7 +1019,6 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -946,22 +1027,32 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
-                    }
+                    
                 }
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc6.gridx = 0;
@@ -995,7 +1086,6 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -1004,22 +1094,31 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc6.gridx = 1;
@@ -1053,7 +1152,7 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
+
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -1062,22 +1161,32 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
-                    }
+                    
                 }
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc6.gridx = 2;
@@ -1111,7 +1220,7 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
+
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -1120,22 +1229,31 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
-            	if (effectCheckbox.isSelected()) {
+                
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc6.gridx = 0;
@@ -1169,7 +1287,7 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
+
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -1178,22 +1296,32 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
-                    }
+                    
                 }
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         gbc6.gridx = 1;
@@ -1227,7 +1355,7 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
+
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -1236,23 +1364,33 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
                     }
-                }
-            	if (effectCheckbox.isSelected()) {
+                
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
             	}
-            }
+            
         });
         gbc6.gridx = 2;
         gbc6.gridy = 3;
@@ -1285,7 +1423,7 @@ public class game {
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
             	
-            	if (musicCheckbox.isSelected()) {
+
                     if (main_clip != null && main_clip.isRunning()) {
                         main_clip.stop();
                         try {
@@ -1294,23 +1432,33 @@ public class game {
                         	timer_clip = AudioSystem.getClip();
                         	timer_clip.open(audioInputStream);
                         	timer_clip.start();
+                        	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        	
+                        	float volume = (float) musicSlider.getValue() / 100.0f;
+                        	FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(20f * (float) Math.log10(volume));
                     	} catch (Exception ex) {
                         	ex.printStackTrace();
                     	}
-                    }
+                    
                 }
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
             	}
-            }
+            
         });
         gbc6.gridx = 1;
         gbc6.gridy = 4;
@@ -1318,7 +1466,7 @@ public class game {
         
         back_panel = new JPanel();
         back_panel.setBackground(null);
-        back_panel.setBounds(14, 15, 75, 75);
+        back_panel.setBounds(14, 35, 75, 75);
         back_panel.setOpaque(false);
         back_panel.setVisible(false);
         container.add(back_panel);
@@ -1339,17 +1487,22 @@ public class game {
 	                }
             	}
                 
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
 
         		if (game_panel.isVisible() == true && usedHint == true) {
         			unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
@@ -1398,14 +1551,14 @@ public class game {
             		isReview = false;
             		usedParts.clear();
             		
-            		if (musicCheckbox.isSelected()) {
+
                         if (timer_clip != null && timer_clip.isRunning()) {
                         	timer_clip.stop();
                         	if (main_clip != null && !main_clip.isRunning()) {
                                 main_clip.start();
                             }
                         }
-                    }
+                    
             	}
             	else if (game_panel.isVisible() && isReview == true) {
             		game_panel.setVisible(false);
@@ -1417,14 +1570,14 @@ public class game {
             		usedParts.clear();
             		back_panel.setBounds(14, 15, 75, 75);
             		
-            		if (musicCheckbox.isSelected()) {
+
                         if (timer_clip != null && timer_clip.isRunning()) {
                         	timer_clip.stop();
                         	if (main_clip != null && !main_clip.isRunning()) {
                                 main_clip.start();
                             }
                         }
-                    }
+                    
             	}
             	else if (game_panel.isVisible()) {
             		game_panel.setVisible(false);
@@ -1434,14 +1587,13 @@ public class game {
             		usedParts.clear();
             		back_panel.setBounds(14, 15, 75, 75);
             		
-            		if (musicCheckbox.isSelected()) {
                         if (timer_clip != null && timer_clip.isRunning()) {
                         	timer_clip.stop();
                         	if (main_clip != null && !main_clip.isRunning()) {
                                 main_clip.start();
                             }
-                        }
-                    }
+                       }
+                    
             	}
             	else if (settings_panel.isVisible()) {
             		main_panel.setVisible(true);
@@ -1564,13 +1716,18 @@ public class game {
         backBtn2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (effectCheckbox.isSelected()) { 
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 }
@@ -1621,7 +1778,7 @@ public class game {
                     respiratory_panel.setVisible(true);
                     nextBtn_panel.setVisible(true);
                 }
-            }
+            
         }});
         backBtn_panel2.add(backBtn2);	
 
@@ -1644,17 +1801,22 @@ public class game {
         nextBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if (effectCheckbox.isSelected()) { 
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
                 if (cardiovascular_panel.isVisible()) {
                     cardiovascular_panel.setVisible(false);
                     digestive_panel.setVisible(true); 
@@ -1958,17 +2120,22 @@ public class game {
             	skipBtn.setVisible(false);
             	back_panel.setBounds(14, 35, 75, 75);
             	
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             }
         });
         review_panel.add(continueBtn, gbc7);
@@ -2056,17 +2223,22 @@ public class game {
         skipBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         skipBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	if (effectCheckbox.isSelected()) {
+
             		try {
             			File audioFile = new File("assets/button_click.wav");
                     	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                     	Clip clip = AudioSystem.getClip();
                     	clip.open(audioInputStream);
                     	clip.start();
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
-            	}
+            	
             	
             	unused_hintBtn.setIcon(new ImageIcon("assets/unused_hint_button.png"));
                 hintBtn_panel.revalidate();
@@ -2178,7 +2350,7 @@ public class game {
                     hintBtn_panel.setVisible(false);
                     game_over_panel.setVisible(true);
                     
-                    if (musicCheckbox.isSelected()) {
+
 	                    if (timer_clip != null && timer_clip.isRunning()) {
 	                        timer_clip.stop();
 	                        try {
@@ -2187,11 +2359,17 @@ public class game {
 	                        	over_clip = AudioSystem.getClip();
 	                        	over_clip.open(audioInputStream);
 	                        	over_clip.start();
+	                        	over_clip.loop(Clip.LOOP_CONTINUOUSLY);
+	                        	
+	                        	float volume = (float) effectSlider.getValue() / 100.0f;
+
+	                            FloatControl gainControl = (FloatControl) over_clip.getControl(FloatControl.Type.MASTER_GAIN);
+	                            gainControl.setValue(20f * (float) Math.log10(volume));
 	                    	} catch (Exception ex) {
 	                        	ex.printStackTrace();
 	                    	}
 	                    }
-                    }
+                    
                 }
             }
         });
@@ -2264,7 +2442,6 @@ public class game {
             		game_panel.setVisible(false);
             		timer_panel.setVisible(false);
             		
-            		if (musicCheckbox.isSelected()) {
                         if (over_clip != null && over_clip.isRunning()) {
                             over_clip.stop();
                             try {
@@ -2273,10 +2450,16 @@ public class game {
                             	timer_clip = AudioSystem.getClip();
                             	timer_clip.open(audioInputStream);
                             	timer_clip.start();
+                            	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                            	
+                            	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                                FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                                gainControl.setValue(20f * (float) Math.log10(volume));
                         	} catch (Exception ex) {
                             	ex.printStackTrace();
                         	}
-                        }
+                        
                     }
             	}
             	else {
@@ -2285,7 +2468,7 @@ public class game {
             		timer_panel.setVisible(true);
             		hintBtn_panel.setVisible(true);
             		
-            		if (musicCheckbox.isSelected()) {
+
                         if (over_clip != null && over_clip.isRunning()) {
                             over_clip.stop();
                             try {
@@ -2294,11 +2477,17 @@ public class game {
                             	timer_clip = AudioSystem.getClip();
                             	timer_clip.open(audioInputStream);
                             	timer_clip.start();
+                            	timer_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                            	
+                            	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                                FloatControl gainControl = (FloatControl) timer_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                                gainControl.setValue(20f * (float) Math.log10(volume));
                         	} catch (Exception ex) {
                             	ex.printStackTrace();
                         	}
                         }
-                    }
+                    
             	}
                 game_over_panel.setVisible(false);
                 
@@ -2408,7 +2597,6 @@ public class game {
                     ex.printStackTrace();
                 }      	
             	
-            	if (musicCheckbox.isSelected()) {
                     if (over_clip != null && over_clip.isRunning()) {
                         over_clip.stop();
                         try {
@@ -2417,7 +2605,7 @@ public class game {
                         	ex.printStackTrace();
                     	}
                     }
-                }
+                
 
                 back_panel.setVisible(false);
                 game_over_panel.setVisible(false);
@@ -2453,7 +2641,7 @@ public class game {
 
         main_frame.setVisible(true);
         
-        if (musicCheckbox.isSelected()) {
+
             try {
                 File audioFile = new File("assets/ad_music.wav");
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
@@ -2462,18 +2650,20 @@ public class game {
                 main_clip.start();
                 
                 main_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                float volume = (float) effectSlider.getValue() / 100.0f;
+
+                FloatControl gainControl = (FloatControl) main_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(20f * (float) Math.log10(volume));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
-        
-    }    
+       
+    
 
     public static void generatePart(Map<String, String> dictionary) {
         Random random = new Random();
         String partName;
-        
-        System.out.println("usedParts: " + usedParts);
         
         if (usedParts.size() == dictionary.size()) {
             usedParts.clear();
@@ -2579,17 +2769,22 @@ public class game {
             timer.stop();
         }   
         
-        if (effectCheckbox.isSelected()) {
+
     		try {
     			File audioFile = new File("assets/wrong_answer.wav");
             	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
             	Clip clip = AudioSystem.getClip();
             	clip.open(audioInputStream);
             	clip.start();
+            	
+            	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(20f * (float) Math.log10(volume));
         	} catch (Exception ex) {
             	ex.printStackTrace();
         	}
-    	}
+    	
     
         if (roundNum < 10) {
             fill();
@@ -2682,7 +2877,7 @@ public class game {
             hintBtn_panel.repaint();
             usedHint = false;
             
-            if (musicCheckbox.isSelected()) {
+
                 if (timer_clip != null && timer_clip.isRunning()) {
                     timer_clip.stop();
                     try {
@@ -2691,19 +2886,25 @@ public class game {
                     	over_clip = AudioSystem.getClip();
                     	over_clip.open(audioInputStream);
                     	over_clip.start();
+                    	over_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) over_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
                 }
             }
-        }
+        
     }
 
     static void submitAnswer() {
         String userAnswer = answerInputField.getText();
         
         if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum == maxRound) {
-        	if (musicCheckbox.isSelected()) {
+
                 if (timer_clip != null && timer_clip.isRunning()) {
                     timer_clip.stop();
                     try {
@@ -2712,11 +2913,17 @@ public class game {
                     	over_clip = AudioSystem.getClip();
                     	over_clip.open(audioInputStream);
                     	over_clip.start();
+                    	over_clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    	
+                    	float volume = (float) effectSlider.getValue() / 100.0f;
+
+                        FloatControl gainControl = (FloatControl) over_clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(20f * (float) Math.log10(volume));
                 	} catch (Exception ex) {
                     	ex.printStackTrace();
                 	}
                 }
-            }
+            
         	if (difficulty.equals("easy")) {
             	coins += 1;
             	coinLabel.setText(Integer.toString(coins));
@@ -2828,6 +3035,10 @@ public class game {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();
+                float volume = (float) effectSlider.getValue() / 100.0f;
+
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(20f * (float) Math.log10(volume));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -2994,6 +3205,10 @@ public class game {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();
+                float volume = (float) effectSlider.getValue() / 100.0f;
+
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(20f * (float) Math.log10(volume));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
