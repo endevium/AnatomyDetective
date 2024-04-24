@@ -24,11 +24,12 @@ public class game {
 	
 	private static Clip main_clip;
 	private static Clip timer_clip;
-	private static Clip review_clip;
+	private static Clip over_clip;
 	
 	private static Set<String> usedParts = new HashSet<>();
 	private static JProgressBar PBar;
     private static JFrame main_frame;
+    private static JSlider musicSlider, effectSlider;
     private static JCheckBox musicCheckbox, effectCheckbox;
     private static JLabel gameLogoLabel, scoreLabel, roundLabel, imageLabel, totalLabel, chooseModeLabel, chooseTopicLabel, chooseDifficultyLabel, rememberThisLabel, reviewImageLabel, partNameLabel, htpImageLabel, htpLabel, cardioImageLabel, cardioLabel, digestiveImageLabel, digestiveLabel, endocrineImageLabel, endocrineLabel, excretoryImageLabel, excretoryLabel, immuneImageLabel, immuneLabel, integumentaryImageLabel, integumentaryLabel, nervousImageLabel, nervousLabel, reproductiveImageLabel, reproductiveImageLabel2, reproductiveLabel, respiratoryImageLabel, respiratoryLabel, skeletalImageLabel, skeletalLabel, coinLabel, coinImageLabel, addedCoinLabel, hintLabel;
     private static JTextField answerInputField;
@@ -64,8 +65,6 @@ public class game {
         maxRound = 10;
         isReview = false;
         usedHint = false;
-        
-        
         
         // Coin panel
         coin_panel = new JPanel() {
@@ -250,6 +249,10 @@ public class game {
                     	ex.printStackTrace();
                 	}
             	}
+            	
+            	AnatomyDetectiveDictionary dictionary = new AnatomyDetectiveDictionary();
+                Map<String, String> easyDictionary = dictionary.getEasyDictionary();
+                generatePart(easyDictionary);
             }
         });
         main_panel.add(playBtn, gbc);
@@ -559,8 +562,7 @@ public class game {
                 back_panel.setBounds(14, 35, 75, 75);
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
-        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear(); 
+        		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound)); 
 
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
@@ -622,7 +624,6 @@ public class game {
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
             	
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
@@ -683,7 +684,6 @@ public class game {
             	scoreLabel.setText(Integer.toString(score));
             	totalLabel.setText("Score: " + Integer.toString(score));
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         			
             	difficulty_panel.setVisible(false);
             	game_panel.setVisible(true);
@@ -760,7 +760,6 @@ public class game {
             	maxRound = (isReview) ? firstTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         		
             	
             	topic_panel.setVisible(false);
@@ -820,7 +819,6 @@ public class game {
             	maxRound = (isReview) ? secondTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         		
         		
         	            	
@@ -881,7 +879,6 @@ public class game {
             	maxRound = (isReview) ? thirdTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
@@ -994,7 +991,6 @@ public class game {
             	maxRound = (isReview) ? fifthTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
@@ -1053,7 +1049,6 @@ public class game {
             	maxRound = (isReview) ? sixthTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
@@ -1112,7 +1107,6 @@ public class game {
             	maxRound = (isReview) ? seventhTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
@@ -1171,7 +1165,6 @@ public class game {
             	maxRound = (isReview) ? eighthTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
@@ -1230,7 +1223,6 @@ public class game {
             	maxRound = (isReview) ? ninthTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
@@ -1289,7 +1281,6 @@ public class game {
             	maxRound = (isReview) ? ninthTopic.size() : 10;
 
         		roundLabel.setText(Integer.toString(roundNum) + "/" + Integer.toString(maxRound));
-        		usedParts.clear();
         	            	
             	topic_panel.setVisible(false);
             	review_panel.setVisible(true);
@@ -1365,6 +1356,10 @@ public class game {
                     hintBtn_panel.revalidate();
                     hintBtn_panel.repaint();
                     usedHint = false;
+        		}
+        		
+        		if (isReview == true) {
+        			skipBtn.setVisible(true);
         		}
         		
             	if (mode_panel.isVisible()) {
@@ -1660,13 +1655,13 @@ public class game {
                     	ex.printStackTrace();
                 	}
             	}
-                if ( cardiovascular_panel.isVisible()) {
+                if (cardiovascular_panel.isVisible()) {
                     cardiovascular_panel.setVisible(false);
                     digestive_panel.setVisible(true); 
                     backBtn_panel2.setVisible(true);
                 }
 
-                else if ( digestive_panel.isVisible()) {
+                else if (digestive_panel.isVisible()) {
                     digestive_panel.setVisible(false);
                     endocrine_panel.setVisible(true);
                 }
@@ -2182,6 +2177,21 @@ public class game {
                     timer_panel.setVisible(false);
                     hintBtn_panel.setVisible(false);
                     game_over_panel.setVisible(true);
+                    
+                    if (musicCheckbox.isSelected()) {
+	                    if (timer_clip != null && timer_clip.isRunning()) {
+	                        timer_clip.stop();
+	                        try {
+	                			File audioFile = new File("assets/game_over_music.wav");
+	                        	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+	                        	over_clip = AudioSystem.getClip();
+	                        	over_clip.open(audioInputStream);
+	                        	over_clip.start();
+	                    	} catch (Exception ex) {
+	                        	ex.printStackTrace();
+	                    	}
+	                    }
+                    }
                 }
             }
         });
@@ -2253,11 +2263,42 @@ public class game {
             		review_panel.setVisible(true);
             		game_panel.setVisible(false);
             		timer_panel.setVisible(false);
+            		
+            		if (musicCheckbox.isSelected()) {
+                        if (over_clip != null && over_clip.isRunning()) {
+                            over_clip.stop();
+                            try {
+                            	File audioFile = new File("assets/review_music.wav");
+                            	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                            	timer_clip = AudioSystem.getClip();
+                            	timer_clip.open(audioInputStream);
+                            	timer_clip.start();
+                        	} catch (Exception ex) {
+                            	ex.printStackTrace();
+                        	}
+                        }
+                    }
             	}
             	else {
             		fill();
             		game_panel.setVisible(true);
-            		timer_panel.setVisible(true);		
+            		timer_panel.setVisible(true);
+            		hintBtn_panel.setVisible(true);
+            		
+            		if (musicCheckbox.isSelected()) {
+                        if (over_clip != null && over_clip.isRunning()) {
+                            over_clip.stop();
+                            try {
+                            	File audioFile = new File("assets/timer_music.wav");
+                            	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                            	timer_clip = AudioSystem.getClip();
+                            	timer_clip.open(audioInputStream);
+                            	timer_clip.start();
+                        	} catch (Exception ex) {
+                            	ex.printStackTrace();
+                        	}
+                        }
+                    }
             	}
                 game_over_panel.setVisible(false);
                 
@@ -2267,7 +2308,7 @@ public class game {
                 usedHint = false;
                 
                 score = 0;
-                hintBtn_panel.setVisible(true);
+                
                 roundNum = 1;
                 addedCoins = 0;
             	addedCoinLabel.setText("+" + addedCoins);
@@ -2366,6 +2407,17 @@ public class game {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }      	
+            	
+            	if (musicCheckbox.isSelected()) {
+                    if (over_clip != null && over_clip.isRunning()) {
+                        over_clip.stop();
+                        try {
+                        	main_clip.start();
+                    	} catch (Exception ex) {
+                        	ex.printStackTrace();
+                    	}
+                    }
+                }
 
                 back_panel.setVisible(false);
                 game_over_panel.setVisible(false);
@@ -2421,18 +2473,17 @@ public class game {
         Random random = new Random();
         String partName;
         
+        System.out.println("usedParts: " + usedParts);
+        
         if (usedParts.size() == dictionary.size()) {
-            // Reset usedParts if all parts have been used (assuming you want to reuse)
             usedParts.clear();
         }
 
-        // Keep generating a partName until finding one that hasn't been used
         do {
             int randomIndex = random.nextInt(dictionary.size());
             partName = (String) dictionary.keySet().toArray()[randomIndex];
         } while (usedParts.contains(partName));
-
-        // Add the chosen partName to usedParts to mark it as used
+        
         usedParts.add(partName);
 
         correctAnswer = partName;
@@ -2630,6 +2681,21 @@ public class game {
             hintBtn_panel.revalidate();
             hintBtn_panel.repaint();
             usedHint = false;
+            
+            if (musicCheckbox.isSelected()) {
+                if (timer_clip != null && timer_clip.isRunning()) {
+                    timer_clip.stop();
+                    try {
+            			File audioFile = new File("assets/game_over_music.wav");
+                    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    	over_clip = AudioSystem.getClip();
+                    	over_clip.open(audioInputStream);
+                    	over_clip.start();
+                	} catch (Exception ex) {
+                    	ex.printStackTrace();
+                	}
+                }
+            }
         }
     }
 
@@ -2637,6 +2703,20 @@ public class game {
         String userAnswer = answerInputField.getText();
         
         if (userAnswer.equalsIgnoreCase(correctAnswer) && roundNum == maxRound) {
+        	if (musicCheckbox.isSelected()) {
+                if (timer_clip != null && timer_clip.isRunning()) {
+                    timer_clip.stop();
+                    try {
+            			File audioFile = new File("assets/game_over_music.wav");
+                    	AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    	over_clip = AudioSystem.getClip();
+                    	over_clip.open(audioInputStream);
+                    	over_clip.start();
+                	} catch (Exception ex) {
+                    	ex.printStackTrace();
+                	}
+                }
+            }
         	if (difficulty.equals("easy")) {
             	coins += 1;
             	coinLabel.setText(Integer.toString(coins));
@@ -2730,6 +2810,8 @@ public class game {
             }
             else {
             	totalLabel.setText("<html>Review Complete!</html>"); 
+            	coinImageLabel.setVisible(false);
+            	addedCoinLabel.setVisible(false);
             }
             
             
