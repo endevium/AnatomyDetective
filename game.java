@@ -460,7 +460,7 @@ public class game {
         htp_panel = new JPanel(new GridBagLayout());
         htp_panel.setBackground(null);
         htp_panel.setOpaque(false);
-        htp_panel.setBounds(100, 85, 800, 700);
+        htp_panel.setBounds(100, 0, 800, 900);
         htp_panel.setVisible(false);
         container.add(htp_panel);
         
@@ -469,13 +469,14 @@ public class game {
         GridBagConstraints gbc8 = new GridBagConstraints();
         gbc8.gridx = 0;
         gbc8.gridy = 0;
-        gbc8.insets = new Insets(10, 0, 25, 0);
+        gbc8.insets = new Insets(10, 0, 40, 0);
         htp_panel.add(htpImageLabel, gbc8);
         
-        htpLabel = new JLabel("<html>Welcome to Anatomy Detective. In this game, you will be guessing different parts of the body. Click ‘Play’ to choose a gamemode. Click ‘Casual’ to play the guessing game, which will let you pick a difficulty. You can also review different systems of the body by clicking ‘Review’. </html>");
+        htpLabel = new JLabel("<html>Click 'Play' to choose a gamemode. Type your answer and click submit. Earn coins by answering and use them for hints.</html>");
         htpLabel.setForeground(Color.WHITE);
-        htpLabel.setPreferredSize(new Dimension(800, 220));
-        htpLabel.setFont(new Font("Bungee", Font.PLAIN, 26));
+        htpLabel.setPreferredSize(new Dimension(800, 100));
+
+        htpLabel.setFont(new Font("Bungee", Font.PLAIN, 24));
         gbc8.gridx = 0;
         gbc8.gridy = 1;
         htp_panel.add(htpLabel, gbc8);
@@ -1707,7 +1708,7 @@ public class game {
 
         backBtn2 = new JButton();
         backBtn2.setIcon(new ImageIcon("assets/back_button.png"));
-        backBtn2.setBounds(0, 0, 75, 75);
+        backBtn2.setBounds(15, 0, 75, 75);
         backBtn2.setBackground(null);
         backBtn2.setBorder(null);
         backBtn2.setBorderPainted(false);
@@ -1872,20 +1873,33 @@ public class game {
         cardiovascular_panel.setVisible(false);
         cardiovascular_panel.setLayout(null);
         cardiovascular_panel.setOpaque(false);
-        cardiovascular_panel.setBounds(320, 100, 383, 700);
+        cardiovascular_panel.setBounds(300, 100, 420, 700);
         container.add(cardiovascular_panel);
         
+        ImageIcon cardioImg = createResizedImageIcon("assets/cardiovascular_system2.png", 425, 400);
+        ImageIcon digestiveImg = createResizedImageIcon("assets/digestive_system2.png", 425, 400);
+        ImageIcon endocrineImg = createResizedImageIcon("assets/endocrine_system2.png", 425, 400);
+        ImageIcon excretoryImg = createResizedImageIcon("assets/excretory_system2.png", 425, 400);
+        ImageIcon immuneImg = createResizedImageIcon("assets/immune_system2.png", 425, 400);
+        ImageIcon integumentaryImg = createResizedImageIcon("assets/integumentary_system2.png", 425, 400);
+        ImageIcon nervousImg = createResizedImageIcon("assets/nervous_system2.png", 425, 400);
+        ImageIcon reproductiveImg = createResizedImageIcon("assets/reproductive_system2.png", 425, 200);
+        ImageIcon respiratoryImg = createResizedImageIcon("assets/respiratory_system2.png", 425, 400);
+        ImageIcon skeletalImg = createResizedImageIcon("assets/skeletal_system2.png", 425, 400);
+        
+        
         cardioImageLabel = new JLabel();
-        cardioImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        cardioImageLabel.setIcon(cardioImg);
+        cardioImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
         cardioImageLabel.setBackground(null);
-        cardioImageLabel.setBounds(0, 0, 383, 612);
+        cardioImageLabel.setBounds(0, 60, 420, 400);
         cardiovascular_panel.add(cardioImageLabel);
         
         cardioLabel = new JLabel("Cardiovascular System");
         cardioLabel.setFont(new Font("Bungee", Font.BOLD, 25));
         cardioLabel.setForeground(new Color(4,37,100));
         cardioLabel.setBackground(null);
-        cardioLabel.setBounds(10, 615, 500, 100);
+        cardioLabel.setBounds(20, 500, 1000, 100);
         cardiovascular_panel.add(cardioLabel);
         
         digestive_panel = new JPanel();
@@ -1893,20 +1907,21 @@ public class game {
         digestive_panel.setVisible(false);
         digestive_panel.setLayout(null);
         digestive_panel.setOpaque(false);
-        digestive_panel.setBounds(320, 100, 383, 700);
+        digestive_panel.setBounds(300, 100, 420, 700);
         container.add(digestive_panel);
         
         digestiveImageLabel = new JLabel();
-        digestiveImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        digestiveImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        digestiveImageLabel.setIcon(digestiveImg);
         digestiveImageLabel.setBackground(null);
-        digestiveImageLabel.setBounds(0, 0, 383, 612);
+        digestiveImageLabel.setBounds(0, 60, 420, 400);
         digestive_panel.add(digestiveImageLabel);
         
         digestiveLabel = new JLabel("Digestive System");
         digestiveLabel.setFont(new Font("Bungee", Font.BOLD, 30));
         digestiveLabel.setForeground(new Color(4,37,100));
         digestiveLabel.setBackground(null);
-        digestiveLabel.setBounds(25, 615, 500, 100);
+        digestiveLabel.setBounds(40, 500, 500, 100);
         digestive_panel.add(digestiveLabel);
         
         endocrine_panel = new JPanel();
@@ -1914,20 +1929,21 @@ public class game {
         endocrine_panel.setVisible(false);
         endocrine_panel.setLayout(null);
         endocrine_panel.setOpaque(false);
-        endocrine_panel.setBounds(320, 100, 383, 700);
+        endocrine_panel.setBounds(300, 100, 420, 700);
         container.add(endocrine_panel);
         
         endocrineImageLabel = new JLabel();
-        endocrineImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        endocrineImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        endocrineImageLabel.setIcon(endocrineImg);
         endocrineImageLabel.setBackground(null);
-        endocrineImageLabel.setBounds(0, 0, 383, 612);
+        endocrineImageLabel.setBounds(0, 60, 420, 400);
         endocrine_panel.add(endocrineImageLabel);
         
         endocrineLabel = new JLabel("Endocrine System");
         endocrineLabel.setFont(new Font("Bungee", Font.BOLD, 30));
         endocrineLabel.setForeground(new Color(4,37,100));
         endocrineLabel.setBackground(null);
-        endocrineLabel.setBounds(25, 615, 500, 100);
+        endocrineLabel.setBounds(40, 500, 500, 100);
         endocrine_panel.add(endocrineLabel);
         
         excretory_panel = new JPanel();
@@ -1935,20 +1951,21 @@ public class game {
         excretory_panel.setVisible(false);
         excretory_panel.setLayout(null);
         excretory_panel.setOpaque(false);
-        excretory_panel.setBounds(320, 100, 383, 700);
+        excretory_panel.setBounds(300, 100, 420, 700);
         container.add(excretory_panel);
         
         excretoryImageLabel = new JLabel();
-        excretoryImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        excretoryImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        excretoryImageLabel.setIcon(excretoryImg);
         excretoryImageLabel.setBackground(null);
-        excretoryImageLabel.setBounds(0, 0, 383, 612);
+        excretoryImageLabel.setBounds(0, 60, 420, 400);
         excretory_panel.add(excretoryImageLabel);
         
         excretoryLabel = new JLabel("Excretory System");
         excretoryLabel.setFont(new Font("Bungee", Font.BOLD, 30));
         excretoryLabel.setForeground(new Color(4,37,100));
         excretoryLabel.setBackground(null);
-        excretoryLabel.setBounds(25, 615, 500, 100);
+        excretoryLabel.setBounds(40, 500, 500, 100);
         excretory_panel.add(excretoryLabel);
         
         immune_panel = new JPanel();
@@ -1956,20 +1973,21 @@ public class game {
         immune_panel.setVisible(false);
         immune_panel.setLayout(null);
         immune_panel.setOpaque(false);
-        immune_panel.setBounds(320, 100, 383, 700);
+        immune_panel.setBounds(300, 100, 420, 700);
         container.add(immune_panel);
         
         immuneImageLabel = new JLabel();
-        immuneImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        immuneImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        immuneImageLabel.setIcon(immuneImg);
         immuneImageLabel.setBackground(null);
-        immuneImageLabel.setBounds(0, 0, 383, 612);
+        immuneImageLabel.setBounds(0, 60, 420, 400);
         immune_panel.add(immuneImageLabel);
         
         immuneLabel = new JLabel("Immune System");
         immuneLabel.setFont(new Font("Bungee", Font.BOLD, 30));
         immuneLabel.setForeground(new Color(4,37,100));
         immuneLabel.setBackground(null);
-        immuneLabel.setBounds(45, 615, 500, 100);
+        immuneLabel.setBounds(75, 500, 500, 100);
         immune_panel.add(immuneLabel);
         
         integumentary_panel = new JPanel();
@@ -1977,20 +1995,21 @@ public class game {
         integumentary_panel.setVisible(false);
         integumentary_panel.setLayout(null);
         integumentary_panel.setOpaque(false);
-        integumentary_panel.setBounds(320, 100, 383, 700);
+        integumentary_panel.setBounds(300, 100, 420, 700);
         container.add(integumentary_panel);
         
         integumentaryImageLabel = new JLabel();
-        integumentaryImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        integumentaryImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        integumentaryImageLabel.setIcon(integumentaryImg);
         integumentaryImageLabel.setBackground(null);
-        integumentaryImageLabel.setBounds(0, 0, 383, 612);
+        integumentaryImageLabel.setBounds(0, 60, 420, 400);
         integumentary_panel.add(integumentaryImageLabel);
         
         integumentaryLabel = new JLabel("Integumentary System");
         integumentaryLabel.setFont(new Font("Bungee", Font.BOLD, 26));
         integumentaryLabel.setForeground(new Color(4,37,100));
         integumentaryLabel.setBackground(null);
-        integumentaryLabel.setBounds(10, 615, 500, 100);
+        integumentaryLabel.setBounds(20, 500, 500, 100);
         integumentary_panel.add(integumentaryLabel);
         
         nervous_panel = new JPanel();
@@ -1998,20 +2017,21 @@ public class game {
         nervous_panel.setVisible(false);
         nervous_panel.setLayout(null);
         nervous_panel.setOpaque(false);
-        nervous_panel.setBounds(320, 100, 383, 700);
+        nervous_panel.setBounds(300, 100, 420, 700);
         container.add(nervous_panel);
         
         nervousImageLabel = new JLabel();
-        nervousImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        nervousImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        nervousImageLabel.setIcon(nervousImg);
         nervousImageLabel.setBackground(null);
-        nervousImageLabel.setBounds(0, 0, 383, 612);
+        nervousImageLabel.setBounds(0, 60, 420, 400);
         nervous_panel.add(nervousImageLabel);
         
         nervousLabel = new JLabel("Nervous System");
         nervousLabel.setFont(new Font("Bungee", Font.BOLD, 30));
         nervousLabel.setForeground(new Color(4,37,100));
         nervousLabel.setBackground(null);
-        nervousLabel.setBounds(45, 615, 500, 100);
+        nervousLabel.setBounds(65, 500, 500, 100);
         nervous_panel.add(nervousLabel);
         
         reproductive_panel = new JPanel();
@@ -2019,26 +2039,21 @@ public class game {
         reproductive_panel.setVisible(false);
         reproductive_panel.setLayout(null);
         reproductive_panel.setOpaque(false);
-        reproductive_panel.setBounds(100, 100, 750, 700);
+        reproductive_panel.setBounds(300, 100, 420, 700);
         container.add(reproductive_panel);
         
         reproductiveImageLabel = new JLabel();
-        reproductiveImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        reproductiveImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        reproductiveImageLabel.setIcon(reproductiveImg);
         reproductiveImageLabel.setBackground(null);
-        reproductiveImageLabel.setBounds(20, 0, 383, 612);
+        reproductiveImageLabel.setBounds(0, 150, 420, 200);
         reproductive_panel.add(reproductiveImageLabel);
-        
-        reproductiveImageLabel2 = new JLabel();
-        reproductiveImageLabel2.setIcon(new ImageIcon("assets/human_body.png"));
-        reproductiveImageLabel2.setBackground(null);
-        reproductiveImageLabel2.setBounds(420, 0, 383, 612);
-        reproductive_panel.add(reproductiveImageLabel2);
         
         reproductiveLabel = new JLabel("Reproductive System");
         reproductiveLabel.setFont(new Font("Bungee", Font.BOLD, 30));
         reproductiveLabel.setForeground(new Color(4,37,100));
         reproductiveLabel.setBackground(null);
-        reproductiveLabel.setBounds(220, 615, 500, 100);
+        reproductiveLabel.setBounds(15, 450, 500, 100);
         reproductive_panel.add(reproductiveLabel);
         
         respiratory_panel = new JPanel();
@@ -2046,20 +2061,21 @@ public class game {
         respiratory_panel.setVisible(false);
         respiratory_panel.setLayout(null);
         respiratory_panel.setOpaque(false);
-        respiratory_panel.setBounds(320, 100, 383, 700);
+        respiratory_panel.setBounds(300, 100, 420, 700);
         container.add(respiratory_panel);
         
         respiratoryImageLabel = new JLabel();
-        respiratoryImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        respiratoryImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        respiratoryImageLabel.setIcon(respiratoryImg);
         respiratoryImageLabel.setBackground(null);
-        respiratoryImageLabel.setBounds(0, 0, 383, 612);
+        respiratoryImageLabel.setBounds(0, 60, 420, 400);
         respiratory_panel.add(respiratoryImageLabel);
         
         respiratoryLabel = new JLabel("Respiratory System");
         respiratoryLabel.setFont(new Font("Bungee", Font.BOLD, 30));
         respiratoryLabel.setForeground(new Color(4,37,100));
         respiratoryLabel.setBackground(null);
-        respiratoryLabel.setBounds(0, 615, 500, 100);
+        respiratoryLabel.setBounds(20, 500, 500, 100);
         respiratory_panel.add(respiratoryLabel);
         
         skeletal_panel = new JPanel();
@@ -2067,20 +2083,21 @@ public class game {
         skeletal_panel.setVisible(false);
         skeletal_panel.setLayout(null);
         skeletal_panel.setOpaque(false);
-        skeletal_panel.setBounds(320, 100, 383, 700);
+        skeletal_panel.setBounds(300, 100, 420, 700);
         container.add(skeletal_panel);
         
         skeletalImageLabel = new JLabel();
-        skeletalImageLabel.setIcon(new ImageIcon("assets/human_body.png"));
+        skeletalImageLabel.setBorder(BorderFactory.createLineBorder(new Color(4,37,100), 2));
+        skeletalImageLabel.setIcon(skeletalImg);
         skeletalImageLabel.setBackground(null);
-        skeletalImageLabel.setBounds(0, 0, 383, 612);
+        skeletalImageLabel.setBounds(0, 60, 420, 400);
         skeletal_panel.add(skeletalImageLabel);
         
         skeletalLabel = new JLabel("Skeletal System");
         skeletalLabel.setFont(new Font("Bungee", Font.BOLD, 30));
         skeletalLabel.setForeground(new Color(4,37,100));
         skeletalLabel.setBackground(null);
-        skeletalLabel.setBounds(25, 615, 500, 100);
+        skeletalLabel.setBounds(60, 500, 500, 100);
         skeletal_panel.add(skeletalLabel);
         
         // Review Panel
@@ -2665,7 +2682,7 @@ public class game {
         Random random = new Random();
         String partName;
         
-        if (usedParts.size() == dictionary.size()) {
+        if (usedParts.size() == (dictionary.size() + 1)) {
             usedParts.clear();
         }
 
