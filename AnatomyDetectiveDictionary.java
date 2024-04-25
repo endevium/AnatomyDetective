@@ -30,8 +30,8 @@ public class AnatomyDetectiveDictionary {
 		easyDictionary.put("Liver", "assets/liver.png");
 		easyDictionary.put("Mouth", "assets/mouth.png");
 		easyDictionary.put("Pancreas", "assets/pancreas.png");;
-		easyDictionary.put("Small intestines", "assets/small_intestines.png");
-		easyDictionary.put("Large intestines", "assets/large_intestines.png");
+		easyDictionary.put("Small intestine", "assets/small_intestines.png");
+		easyDictionary.put("Large intestine", "assets/large_intestines.png");
 		easyDictionary.put("Testes", "assets/testes.png");
 		easyDictionary.put("Ovaries", "assets/ovaries.png");
 		easyDictionary.put("Skin", "assets/skin.png");
@@ -47,7 +47,14 @@ public class AnatomyDetectiveDictionary {
 		easyDictionary.put("Testicles", "assets/testicles.png");
 		easyDictionary.put("Uterus", "assets/uterus.png");
 		easyDictionary.put("Prostate", "assets/prostate.png");
-		//easyDictionary.put("", "assets/");	
+		easyDictionary.put("Bone marrow", "assets/bone_marrow.png");
+		easyDictionary.put("Spleen", "assets/spleen.png");
+		easyDictionary.put("Brain", "assets/brain.png");
+		easyDictionary.put("Parietal lobe", "assets/parietal_lobe.png");
+		easyDictionary.put("Frontal lobe", "assets/frontal_lobe.png");
+		easyDictionary.put("Occipital lobe", "assets/occipital_lobe.png");
+		easyDictionary.put("Ribs", "assets/ribs.png");	
+		easyDictionary.put("Skull", "assets/skull.png");
 		
 		averageDictionary = new HashMap<>();
 		averageDictionary.put("Left ventricle", "assets/left_ventricle.png");
@@ -77,6 +84,12 @@ public class AnatomyDetectiveDictionary {
 		averageDictionary.put("Endometrium", "assets/endometrium.png");
 		averageDictionary.put("Urethral opening", "assets/urethral_opening.png");
 		averageDictionary.put("Cervical canal", "assets/cervical_canal.png");
+		averageDictionary.put("Tonsil", "assets/tonsils.png");
+		averageDictionary.put("Thymus", "assets/thymus2.png");
+		averageDictionary.put("Femur", "assets/femur.png");
+		averageDictionary.put("Shoulder blades", "assets/shoulder_blades.png");
+
+		
 		
 		difficultDictionary = new HashMap<>();
 		difficultDictionary.put("Tricuspid valve", "assets/tricuspid_valve.png");
@@ -87,10 +100,10 @@ public class AnatomyDetectiveDictionary {
 		difficultDictionary.put("Salivary glands", "assets/salivary_glands.png");
 		difficultDictionary.put("Adrenal gland", "assets/adrenal_gland.png");
 		difficultDictionary.put("Pineal gland", "assets/pineal_gland.png");
-		difficultDictionary.put("Parathyroid glands", "assets/parathyroid_glands.png");
+		difficultDictionary.put("Parathyroid gland", "assets/parathyroid_glands.png");
 		difficultDictionary.put("Thyroid gland", "assets/thyroid_gland.png");
-		difficultDictionary.put("Sebaceous Glands", "assets/sebaceous_glands.png");
-		difficultDictionary.put("Sweat Glands", "assets/sweat_glands.png");
+		difficultDictionary.put("Sebaceous Gland", "assets/sebaceous_glands.png");
+		difficultDictionary.put("Sweat Gland", "assets/sweat_glands.png");
 		difficultDictionary.put("Alveoli", "assets/alveoli.png");
 		difficultDictionary.put("Frontal sinus", "assets/frontal_sinus.png");
 		difficultDictionary.put("Nasal conchae", "assets/nasal_conchae.png");
@@ -100,7 +113,19 @@ public class AnatomyDetectiveDictionary {
 		difficultDictionary.put("Vena cava", "assets/vena_cava.png");
 		difficultDictionary.put("Seminal vesicle", "assets/seminal_vesicle.png");
 		difficultDictionary.put("Uterine fundus", "assets/uterine_fundus.png");
-		//difficultDictionary.put("", "assets/");		
+		difficultDictionary.put("Cervical nerve", "assets/cervical_nerves.png");
+		difficultDictionary.put("Lumbar nerve", "assets/lumbar_nerves.png");
+		difficultDictionary.put("Peripheral leg nerve", "assets/peripheral_leg_nerves.png");
+		difficultDictionary.put("Sacral nerve", "assets/sacral_nerves.png");
+		difficultDictionary.put("Spinal cord", "assets/spinal_cord.png");
+		difficultDictionary.put("Tibial nerve", "assets/tibial_nerve.png");
+		difficultDictionary.put("Sciatic nerve", "assets/sciatic_nerve.png");
+		difficultDictionary.put("Temporal nerve", "assets/temporal_nerve.png");
+		difficultDictionary.put("Thoracic nerve", "assets/thoracic nerve.png");
+		difficultDictionary.put("Coccyx", "assets/coccyx.png");
+		difficultDictionary.put("Fibula", "assets/fibula.png");
+		difficultDictionary.put("Tibia", "assets/tibia.png");
+
 		
 		// Topics
 		
@@ -124,13 +149,13 @@ public class AnatomyDetectiveDictionary {
 		digestive.put("Appendix", "assets/appendix.png");
 		digestive.put("Esophagus", "assets/esophagus.png");
 		digestive.put("Gallbladder", "assets/gallbladder.png");
-		digestive.put("Large intestines", "assets/large_intestines.png");
+		digestive.put("Large intestine", "assets/large_intestines.png");
 		digestive.put("Liver", "assets/liver.png");
 		digestive.put("Mouth", "assets/mouth.png");
 		digestive.put("Pancreas", "assets/pancreas.png");
 		digestive.put("Rectum", "assets/rectum.png");
-		digestive.put("Salivary glands", "assets/salivary_glands.png");
-		digestive.put("Small intestines", "assets/small_intestines.png");
+		digestive.put("Salivary gland", "assets/salivary_glands.png");
+		digestive.put("Small intestine", "assets/small_intestines.png");
 		digestive.put("Stomach", "assets/stomach.png");
 		
 		endocrine = new HashMap<>();
@@ -144,7 +169,7 @@ public class AnatomyDetectiveDictionary {
 		endocrine.put("Testes", "assets/testes.png");
 		endocrine.put("Hypothalamus", "assets/hypothalamus.png");
 		endocrine.put("Kidneys", "assets/kidney.png");
-		endocrine.put("Parathyroid glands", "assets/parathyroid_glands.png");
+		endocrine.put("Parathyroid gland", "assets/parathyroid_glands.png");
 		
 		excretory = new HashMap<>();
 		excretory.put("Aorta", "assets/aorta2.png");
@@ -157,15 +182,12 @@ public class AnatomyDetectiveDictionary {
 		excretory.put("Vena cava", "assets/vena_cava.png");
 		
 		immune = new HashMap<>();
-		immune.put("li", "assets/liver.png");
-		immune.put("a", "assets/liver.png");
-		immune.put("b", "assets/liver.png");
-		immune.put("c", "assets/liver.png");
-		immune.put("d", "assets/liver.png");
-		immune.put("e", "assets/liver.png");
-		immune.put("f", "assets/liver.png");
-		immune.put("g", "assets/liver.png");
-		immune.put("h", "assets/liver.png");
+		immune.put("Bone marrow", "assets/bone_marrow.png"); 
+		immune.put("Lympathic vessels", "assets/lympathic_vessels.png");
+		immune.put("Lymph nodes", "assets/lymph_nodes.png");
+		immune.put("Spleen", "assets/spleen.png"); 
+		immune.put("Thymus", "assets/thymus2.png"); 
+		immune.put("Tonsils", "assets/tonsils.png"); 
 		
 		integumentary = new HashMap<>();
 		integumentary.put("Dermis", "assets/dermis.png");
@@ -177,20 +199,24 @@ public class AnatomyDetectiveDictionary {
 		integumentary.put("Sweat Glands", "assets/sweat_glands.png");
 		
 		nervous = new HashMap<>();
-		nervous.put("le", "assets/lung.png");
-		nervous.put("a", "assets/lung.png");
-		nervous.put("b", "assets/lung.png");
-		nervous.put("c", "assets/lung.png");
-		nervous.put("d", "assets/lung.png");
-		nervous.put("e", "assets/lung.png");
-		nervous.put("f", "assets/lung.png");
-		nervous.put("g", "assets/lung.png");
-		nervous.put("h", "assets/lung.png");
+		nervous.put("Brain", "assets/brain.png"); //
+		nervous.put("Cervical nerve", "assets/cervical_nerves.png");
+		nervous.put("Lumbar nerve", "assets/lumbar_nerves.png");
+		nervous.put("Parietal lobe", "assets/parietal_lobe.png"); 
+		nervous.put("Peripheral leg nerve", "assets/peripheral_leg_nerves.png");
+		nervous.put("Sacral nerve", "assets/sacral_nerves.png");
+		nervous.put("Spinal cord", "assets/spinal_cord.png");
+		nervous.put("Tibial nerve", "assets/tibial_nerve.png");
+		nervous.put("Frontal lobe", "assets/frontal_lobe.png"); 
+		nervous.put("Occipital lobe", "assets/occipital_lobe.png"); 
+		nervous.put("Sciatic nerve", "assets/sciatic_nerve.png");
+		nervous.put("Temporal nerve", "assets/temporal_nerve.png");
+		nervous.put("Thoracic nerve", "assets/thoracic nerve.png");
 		
 		reproductive = new HashMap<>();
 		reproductive.put("Cervix", "assets/cervix.png");
 		reproductive.put("Ovarian ligament", "assets/ovarian_ligament.png");
-		reproductive.put("Ovary", "assets/ovary.png");
+		reproductive.put("Ovaries", "assets/ovary.png");
 		reproductive.put("Vagina", "assets/vagina.png");
 		reproductive.put("Bladder", "assets/bladder_men.png");
 		reproductive.put("Cervical canal", "assets/cervical_canal.png");
@@ -208,8 +234,7 @@ public class AnatomyDetectiveDictionary {
 		reproductive.put("Urethral opening", "assets/urethral_opening.png");
 		reproductive.put("Uterine fundus", "assets/uterine_fundus.png");
 		reproductive.put("Uterus", "assets/uterus.png");
-		
-		
+
 		respiratory = new HashMap<>(); //
 		respiratory.put("Alveoli", "assets/alveoli.png");
 		respiratory.put("Bronchus", "assets/bronchus.png");
@@ -227,15 +252,13 @@ public class AnatomyDetectiveDictionary {
 		respiratory.put("Sphenoidal sinus", "assets/sphenoidal_sinus.png");
 		
 		skeletal = new HashMap<>();
-		skeletal.put("le", "assets/neck.png");
-		skeletal.put("a", "assets/neck.png");
-		skeletal.put("b", "assets/neck.png");
-		skeletal.put("c", "assets/neck.png");
-		skeletal.put("d", "assets/neck.png");
-		skeletal.put("e", "assets/neck.png");
-		skeletal.put("f", "assets/neck.png");
-		skeletal.put("g", "assets/neck.png");
-		skeletal.put("h", "assets/neck.png");
+		skeletal.put("Coccyx", "assets/coccyx.png");
+		skeletal.put("Femur", "assets/femur.png"); 
+		skeletal.put("Fibula", "assets/fibula.png");
+		skeletal.put("Ribs", "assets/ribs.png"); 
+		skeletal.put("Shoulder blades", "assets/shoulder_blades.png"); 
+		skeletal.put("Skull", "assets/skull.png"); 
+		skeletal.put("Tibia", "assets/tibia.png");
 	}
 	
 	public Map<String, String> getEasyDictionary() {
